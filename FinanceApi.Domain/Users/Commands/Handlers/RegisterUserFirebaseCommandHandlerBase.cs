@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Domain.Users.Commands.Handlers
 {
-    public abstract class CreateUserHandlerBase: HandlerBaseShared<CreateUserResponse, CreateUserRequest>
+    public abstract class RegisterUserFirebaseCommandHandlerBase : HandlerBaseShared<RegisterUserFirebaseResponse, RegisterUserFirebaseRequest>
     {
     }
 }

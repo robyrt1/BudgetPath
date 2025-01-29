@@ -8,5 +8,7 @@ namespace FinanceApi.Infra.Shared.Interfaces
 {
     public interface IFirebase
     {
+        Task<string> VerifyGoogleTokenAsync(string idToken);
+
     }
 }
