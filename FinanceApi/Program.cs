@@ -1,5 +1,5 @@
 using FinanceApi.Infra.Data;
-using FinanceApi.Infra.Data.DI;
+using FinanceApi.Infra.DI;
 using Microsoft.EntityFrameworkCore;
 using System;
 
@@ -14,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("AZURE_SQL_CONNECTIONSTRING")));
 
 /* DI */
+InfraIdentify.AddInfraDepency(builder.Services);
 UserIdentify.AddUserDepency(builder.Services);
 
 var app = builder.Build();
