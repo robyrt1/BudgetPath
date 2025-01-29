@@ -8,5 +8,6 @@ namespace FinanceApi.Domain.Users.Port
 {
     public interface IUserWriteRepositoryBase
     {
+        Task<UserEntity>Create(UserEntity userEntity);
     }
 }
