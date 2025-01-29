@@ -11,7 +11,7 @@ namespace FinanceApi.Infra.Data
 {
     public class AppDbContext : DbContext
     {
-        public DbSet<UserEntity> User { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
 
         private IConfiguration _configuration;
 

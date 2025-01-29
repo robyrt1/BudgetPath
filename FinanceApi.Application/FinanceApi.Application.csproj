@@ -6,4 +6,13 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Authentication\" />
+    <Folder Include="User\Commands\Handlers\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\FinanceApi.Domain\FinanceApi.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

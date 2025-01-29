@@ -18,10 +18,17 @@ namespace FinanceApi.Domain.Users
         [StringLength(255)]
         public string Name { get; set; }
 
+        private string _email = string.Empty;
+
         [Required]
         [EmailAddress]
         [StringLength(255)]
-        public string Email { get; set; }
+        public string Email
+        {
+            get => _email;
+            set => _email = value.ToLowerInvariant(); // Converte para minúsculas ao definir
+        }
+
 
         public string? PasswordHash { get; set; }
 
@@ -29,5 +36,8 @@ namespace FinanceApi.Domain.Users
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        public string EmailLower { get; private set; } = null!;
     }
 }

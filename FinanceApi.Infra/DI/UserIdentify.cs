@@ -1,4 +1,6 @@
-﻿using FinanceApi.Domain.Users.Port;
+﻿using FinanceApi.Application.User.Queries.Handlers;
+using FinanceApi.Domain.Users.Port;
+using FinanceApi.Domain.Users.Queries.Handlers;
 using FinanceApi.Infra.Data.Repositories.Users;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -7,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceApi.Infra.Data.DI
+namespace FinanceApi.Infra.DI
 {
     public static class UserIdentify
     {
@@ -19,7 +21,7 @@ namespace FinanceApi.Infra.Data.DI
             /* COMMANDS */
 
             /* QUERIES */
-
+            services.AddTransient<GetUserByEmailHandlerBase, GetUserByEmailHandlerImp>();
             return services;
         }
     }

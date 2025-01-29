@@ -20,7 +20,7 @@ namespace FinanceApi.Infra.Data.Repositories.Users
 
         public async Task<UserEntity> GetByEmail(string email)
         {
-            return await _context.User.Where(user => user.Email.Equals(email)).FirstOrDefaultAsync(null);
+            return await _context.Users.Where(user =>user.EmailLower == email.ToLower()).FirstOrDefaultAsync();
         }
     }
 }
