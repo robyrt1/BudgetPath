@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Folder Include="Authentication\" />
-    <Folder Include="User\Commands\Handlers\" />
   </ItemGroup>
 
   <ItemGroup>

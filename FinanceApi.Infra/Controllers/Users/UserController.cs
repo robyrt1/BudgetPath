@@ -41,7 +41,7 @@ namespace FinanceApi.Infra.Controllers.Users
             }
         }
 
-        [HttpPost("/registerSystem")]
+        [HttpPost("registerSystem")]
         public async Task<IActionResult> RegisterUserSystem([FromBody] RegisterUserSystemRequest requestUser, [FromServices] RegisterUserSystemCommandHandlerBase registerUserSystemCommandHandler)
         {
             try {
@@ -58,6 +58,29 @@ namespace FinanceApi.Infra.Controllers.Users
                 return Created(location, userCreated);
             }
             catch (Exception ex) {
+                return StatusCode(500, new { StatusCode = StatusCodes.Status500InternalServerError, Details = ex.Message });
+            }
+        }
+
+        [HttpPost("registerFirebase")]
+        public async Task<IActionResult> RegisterUserFirebae([FromBody] RegisterUserFirebaseRequest requestUser, [FromServices] RegisterUserFirebaseCommandHandlerBase registerUserFirebaseCommandHandler)
+        {
+            try
+            {
+                var request = new RegisterUserFirebaseRequest
+                {
+                    Email = requestUser.Email,
+                    Name = requestUser.Name,
+                    IdToken = requestUser.IdToken,
+                };
+
+                var userCreated = await registerUserFirebaseCommandHandler.Handle(request);
+                var location = Url.Action(nameof(RegisterUserSystem), new { id = userCreated.Id });
+
+                return Created(location, userCreated);
+            }
+            catch (Exception ex)
+            {
                 return StatusCode(500, new { StatusCode = StatusCodes.Status500InternalServerError, Details = ex.Message });
             }
         }

@@ -14,10 +14,21 @@ namespace FinanceApi.Infra.Services
     {
         public FirebaseService()
         {
-            FirebaseApp.Create(new AppOptions()
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Secrets", "firebase-adminsdk.json");
+            if (File.Exists(filePath))
             {
-                Credential = GoogleCredential.FromFile("secrets/firebase-adminsdk.json")
-            });
+                Console.WriteLine($"O arquivo foi encontrado: {filePath}");
+
+                FirebaseApp.Create(new AppOptions()
+                {
+                    Credential = GoogleCredential.FromFile(filePath)
+                });
+            }
+            else
+            {
+                Console.WriteLine($"O arquivo não foi encontrado: {filePath}");
+            }
+
         }
 
 
