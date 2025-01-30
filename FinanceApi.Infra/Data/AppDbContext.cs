@@ -25,5 +25,12 @@ namespace FinanceApi.Infra.Data
             var conectionString = _configuration.GetConnectionString(typeDatabase);
             options.UseSqlServer(conectionString);
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<UserEntity>()
+                .Property(user=> user.EmailLower)
+                .HasComputedColumnSql("LOWER(Email)");
+        }
     }
 }

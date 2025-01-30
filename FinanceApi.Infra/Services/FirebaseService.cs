@@ -1,4 +1,4 @@
-﻿using FinanceApi.Infra.Shared.Interfaces;
+﻿using FinanceApi.Domain.Shared.Interfaces;
 using FirebaseAdmin;
 using FirebaseAdmin.Auth;
 using Google.Apis.Auth.OAuth2;
@@ -30,9 +30,7 @@ namespace FinanceApi.Infra.Services
                 return uid;
             }
             catch (Exception ex)
-            {
-                // Caso o token não seja válido
-                Console.WriteLine($"Erro ao verificar o token: {ex.Message}");
+            {                Console.WriteLine($"Erro ao verificar o token: {ex.Message}");
                 return null;
             }
         }

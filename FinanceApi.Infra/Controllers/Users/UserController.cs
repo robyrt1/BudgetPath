@@ -1,4 +1,6 @@
-﻿using FinanceApi.Domain.Users.Queries.Handlers;
+﻿using FinanceApi.Domain.Users.Commands.Handlers;
+using FinanceApi.Domain.Users.Commands.Requests;
+using FinanceApi.Domain.Users.Queries.Handlers;
 using FinanceApi.Domain.Users.Queries.Requests;
 using FinanceApi.Infra.Shared.Execptions;
 using FirebaseAdmin.Messaging;
@@ -35,6 +37,27 @@ namespace FinanceApi.Infra.Controllers.Users
             }
             catch (Exception ex)
             {
+                return StatusCode(500, new { StatusCode = StatusCodes.Status500InternalServerError, Details = ex.Message });
+            }
+        }
+
+        [HttpPost("/registerSystem")]
+        public async Task<IActionResult> RegisterUserSystem([FromBody] RegisterUserSystemRequest requestUser, [FromServices] RegisterUserSystemCommandHandlerBase registerUserSystemCommandHandler)
+        {
+            try {
+                var request = new RegisterUserSystemRequest
+                {
+                    Email = requestUser.Email,
+                    Name = requestUser.Name,
+                    Password = requestUser.Password
+                };
+
+                var userCreated = await registerUserSystemCommandHandler.Handle(request);
+                var location = Url.Action(nameof(RegisterUserSystem), new { id = userCreated.Id });
+
+                return Created(location, userCreated);
+            }
+            catch (Exception ex) {
                 return StatusCode(500, new { StatusCode = StatusCodes.Status500InternalServerError, Details = ex.Message });
             }
         }

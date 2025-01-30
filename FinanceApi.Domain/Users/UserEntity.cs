@@ -39,5 +39,9 @@ namespace FinanceApi.Domain.Users
 
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         public string EmailLower { get; private set; } = null!;
+
+        [Required]
+        [StringLength(255)]
+        public string AuthProvider { get; set; }
     }
 }

@@ -1,7 +1,9 @@
 ﻿using FinanceApi.Application.User.Queries.Handlers;
+using FinanceApi.Domain.Shared.Interfaces;
 using FinanceApi.Domain.Users.Port;
 using FinanceApi.Domain.Users.Queries.Handlers;
 using FinanceApi.Infra.Data.Repositories.Users;
+using FinanceApi.Infra.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -16,6 +18,9 @@ namespace FinanceApi.Infra.DI
     {
         public static IServiceCollection AddInfraDepency(IServiceCollection services)
         {
+            services.AddTransient<ICryptHash, BCryptPasswordHasher>();
+            services.AddTransient<IFirebase, FirebaseService>();
+
             services.AddApiVersioning(options =>
             {
                 options.AssumeDefaultVersionWhenUnspecified = true;

@@ -1,4 +1,6 @@
-﻿using FinanceApi.Application.User.Queries.Handlers;
+﻿using FinanceApi.Application.User.Commands.Handlers;
+using FinanceApi.Application.User.Queries.Handlers;
+using FinanceApi.Domain.Users.Commands.Handlers;
 using FinanceApi.Domain.Users.Port;
 using FinanceApi.Domain.Users.Queries.Handlers;
 using FinanceApi.Infra.Data.Repositories.Users;
@@ -17,11 +19,14 @@ namespace FinanceApi.Infra.DI
         {
             /* REPOSITORIES */
             services.AddTransient<IUserQueriesRepositoryBase, UserQueriesRepository>();
-
+            services.AddTransient<IUserWriteRepositoryBase, UserWriteRepository>();
             /* COMMANDS */
+            services.AddTransient<RegisterUserFirebaseCommandHandlerBase, RegisterUserFirebaseCommandHandlerImp>();
+            services.AddTransient<RegisterUserSystemCommandHandlerBase, RegisterUserSystemCommandHandlerImp>();
 
             /* QUERIES */
             services.AddTransient<GetUserByEmailHandlerBase, GetUserByEmailHandlerImp>();
+            
             return services;
         }
     }
