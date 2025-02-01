@@ -1,10 +1,22 @@
 using FinanceApi.Infra.Data;
 using FinanceApi.Infra.DI;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
-
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", policy =>
+    {
+        policy.AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
 // Add services to the container.
 
 
@@ -17,6 +29,7 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 /* DI */
 InfraIdentify.AddInfraDepency(builder.Services);
 UserIdentify.AddUserDepency(builder.Services);
+AuthenticationIdentify.AddAuthenticationDepency(builder.Services);
 
 var app = builder.Build();
 
@@ -29,7 +42,10 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseCors("AllowAll");
+
 app.UseAuthorization();
+app.UseAuthentication();
 
 app.MapControllerRoute(
     name: "default",

@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Authentication\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\FinanceApi.Domain\FinanceApi.Domain.csproj" />
   </ItemGroup>
 

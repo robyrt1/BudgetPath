@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceApi.Infra.Shared.Execptions
+namespace FinanceApi.Domain.Shared.Execptions
 {
     public class NotFoundException : Exception
     {

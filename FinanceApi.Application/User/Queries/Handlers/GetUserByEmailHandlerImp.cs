@@ -1,9 +1,9 @@
-﻿using FinanceApi.Domain.Users;
+﻿using FinanceApi.Domain.Shared.Execptions;
+using FinanceApi.Domain.Users;
 using FinanceApi.Domain.Users.Port;
 using FinanceApi.Domain.Users.Queries.Handlers;
 using FinanceApi.Domain.Users.Queries.Requests;
 using FinanceApi.Domain.Users.Queries.Responses;
-using FinanceApi.Infra.Shared.Execptions;
 using System;
 using System.Collections;
 using System.Collections.Generic;

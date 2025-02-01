@@ -1,8 +1,8 @@
-﻿using FinanceApi.Domain.Users.Commands.Handlers;
+﻿using FinanceApi.Domain.Shared.Execptions;
+using FinanceApi.Domain.Users.Commands.Handlers;
 using FinanceApi.Domain.Users.Commands.Requests;
 using FinanceApi.Domain.Users.Queries.Handlers;
 using FinanceApi.Domain.Users.Queries.Requests;
-using FinanceApi.Infra.Shared.Execptions;
 using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
