@@ -38,7 +38,7 @@ namespace FinanceApi.Application.Authentication.Commands.Handlers
             bool validatePasswordHash = _bcryptPasswordHasher.VerifyPassword(command.Password, user.PasswordHash);
 
             if (!validatePasswordHash) {
-                throw new UnauthorizedException("Unauthorized");
+                throw new UnauthorizedException("Unauthorized: Verifique seu Email e senha");
             }
 
             var input = new UserInput { Name = user.Name };
