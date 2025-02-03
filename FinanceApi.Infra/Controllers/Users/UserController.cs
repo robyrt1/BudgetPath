@@ -63,7 +63,7 @@ namespace FinanceApi.Infra.Controllers.Users
         }
 
         [HttpPost("registerFirebase")]
-        public async Task<IActionResult> RegisterUserFirebae([FromBody] RegisterUserFirebaseRequest requestUser, [FromServices] RegisterUserFirebaseCommandHandlerBase registerUserFirebaseCommandHandler)
+        public async Task<IActionResult> RegisterUserFirebae([FromBody] RegisterUserFirebaseRequest requestUser, [FromServices] RegisterUserFirebaseCommandHandlerBase registerUserFirebaseCommandHandler, CancellationToken cancellationToken)
         {
             try
             {
@@ -74,7 +74,7 @@ namespace FinanceApi.Infra.Controllers.Users
                     IdToken = requestUser.IdToken,
                 };
 
-                var userCreated = await registerUserFirebaseCommandHandler.Handle(request);
+                var userCreated = await registerUserFirebaseCommandHandler.Handle(request, cancellationToken);
                 var location = Url.Action(nameof(RegisterUserSystem), new { id = userCreated.Id });
 
                 return Created(location, userCreated);

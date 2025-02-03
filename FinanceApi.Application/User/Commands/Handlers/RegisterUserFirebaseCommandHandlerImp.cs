@@ -20,9 +20,11 @@ namespace FinanceApi.Application.User.Commands.Handlers
             _userWriteRepositoryBase = userWriteRepositoryBase;
             _firebase = firebase;
         }
-        public override async Task<RegisterUserFirebaseResponse> Handle(RegisterUserFirebaseRequest command)
+        public override async Task<RegisterUserFirebaseResponse> Handle(RegisterUserFirebaseRequest command, CancellationToken cancellationToken)
         {
-            var firebaseUid = await _firebase.VerifyGoogleTokenAsync(command.IdToken);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            var firebaseUid = await _firebase.VerifyGoogleTokenAsync(command.IdToken,cancellationToken);
             
             if (firebaseUid == null)
             {

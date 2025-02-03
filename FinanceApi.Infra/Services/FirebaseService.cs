@@ -32,6 +32,20 @@ namespace FinanceApi.Infra.Services
         }
 
 
+        public async Task<string> VerifyGoogleTokenAsync(string idToken, CancellationToken cancellationToken = default)
+        {
+            try
+            {
+                var decodedToken = await FirebaseAuth.DefaultInstance.VerifyIdTokenAsync(idToken);
+                string uid = decodedToken.Uid;
+                return uid;
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+        }
+
         public async Task<string> VerifyGoogleTokenAsync(string idToken)
         {
             try
@@ -41,7 +55,7 @@ namespace FinanceApi.Infra.Services
                 return uid;
             }
             catch (Exception ex)
-            {                Console.WriteLine($"Erro ao verificar o token: {ex.Message}");
+            {
                 return null;
             }
         }

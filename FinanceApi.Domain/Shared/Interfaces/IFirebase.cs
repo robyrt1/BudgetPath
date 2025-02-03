@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Domain.Shared.Interfaces
 {
-    public interface IFirebase
+    public abstract class IFirebase
     {
-        Task<string> VerifyGoogleTokenAsync(string idToken);
+        public virtual Task<string> VerifyGoogleTokenAsync(string idToken, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
 
+        public virtual Task<string> VerifyGoogleTokenAsync(string idToken)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

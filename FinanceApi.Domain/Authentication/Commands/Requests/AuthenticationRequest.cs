@@ -12,6 +12,6 @@ namespace FinanceApi.Domain.Authentication.Commands.Requests
 
         public string Email { get; set; }
 
-        public string FirebaseUid { get; set; } = null;
+        public string? FirebaseUid { get; set; } = null;
     }
 }

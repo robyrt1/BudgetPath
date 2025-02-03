@@ -8,7 +8,14 @@ namespace FinanceApi.Domain.Shared.Abstract
 {
     public abstract class HandlerBaseShared<OutPut, Input>
     {
-        public abstract Task<OutPut> Handle(Input command);
+        public virtual Task<OutPut> Handle(Input command)
+        {
+            throw new NotImplementedException("This method is not implemented.");
+        }
+        public virtual Task<OutPut> Handle(Input command, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException("This method is not implemented.");
+        }
         public virtual Task<OutPut> Handle()
         {
             throw new NotImplementedException("This method is not implemented.");

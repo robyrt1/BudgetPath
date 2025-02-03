@@ -28,8 +28,36 @@ namespace FinanceApi.Application.Authentication.Commands.Handlers
             _firebase = firebase;
         }
 
-        public override async Task<AuthenticationResponse> Handle(AuthenticationFirebaseRequest command)
+        public override async Task<AuthenticationResponse> Handle(AuthenticationFirebaseRequest command, CancellationToken cancellationToken)
         {
+            cancellationToken.ThrowIfCancellationRequested();
+
+            GetUserByFirebaseUidRequest userByFirebaseUidRequest = new GetUserByFirebaseUidRequest
+            {
+                FirebaseUid = command.Token,
+            };
+
+            GetUserByFirebaseUidResponse user = await _getUserByFirebaseUidHandler.Handle(userByFirebaseUidRequest);
+
+            string validateTokenFirbase = await _firebase.VerifyGoogleTokenAsync(userByFirebaseUidRequest.FirebaseUid, cancellationToken);
+
+            if (validateTokenFirbase == null)
+            {
+                throw new OperationCanceledException("Invalid Firebase token.");
+            }
+
+            var input = new UserInput { Name = user.Name };
+
+            return new AuthenticationResponse
+            {
+                Name = user.Name,
+                Token = _tokenService.Generate(
+                        input
+                    )
+            };
+        }
+
+        public override async Task<AuthenticationResponse> Handle(AuthenticationFirebaseRequest command) {
             GetUserByFirebaseUidRequest userByFirebaseUidRequest = new GetUserByFirebaseUidRequest
             {
                 FirebaseUid = command.Token,
