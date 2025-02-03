@@ -1,5 +1,6 @@
 ﻿using FinanceApi.Domain.Authentication.Commands.Handlers;
 using FinanceApi.Domain.Authentication.Commands.Requests;
+using FinanceApi.Domain.Authentication.Commands.Responses;
 using FinanceApi.Domain.Shared.Execptions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +20,20 @@ namespace FinanceApi.Infra.Controllers.Authentication
         public AuthenticationController() { }
 
         [HttpPost]
-        public async Task<IActionResult> SignIn([FromBody] AuthenticationRequest authenticationRequest, [FromServices] LoginAuthenticationCommandHandlerBase loginAuthenticationCommandHandler) {
+        public async Task<IActionResult> SignIn([FromBody] AuthenticationRequest authenticationRequest, [FromServices] LoginAuthenticationCommandHandlerBase loginAuthenticationCommandHandler, [FromServices] LoginAuthenticationByFirebaseCommandHandlerBase loginAuthenticationByFirebaseCommandHandler) {
 
-            try { 
-                var request = new AuthenticationRequest() { Email = authenticationRequest.Email, Password = authenticationRequest.Password };
-                var response = await loginAuthenticationCommandHandler.Handle(request);
+            try {
+                var response = new AuthenticationResponse();
+                if (authenticationRequest.FirebaseUid == null) { 
+                    var request = new AuthenticationRequest() { Email = authenticationRequest.Email, Password = authenticationRequest.Password };
+                    response = await loginAuthenticationCommandHandler.Handle(request);
+                
+                }
+                else
+                {
+                    var request = new AuthenticationFirebaseRequest() { Token = authenticationRequest.FirebaseUid };
+                    response = await loginAuthenticationByFirebaseCommandHandler.Handle(request);
+                }
 
                 return Ok(response);
             }

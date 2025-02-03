@@ -6,12 +6,8 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Domain.Authentication.Commands.Requests
 {
-    public class AuthenticationRequest
+    public class AuthenticationFirebaseRequest
     {
-        public string Password { get; set; }
-
-        public string Email { get; set; }
-
-        public string FirebaseUid { get; set; } = null;
+        public string Token {  get; set; }
     }
 }

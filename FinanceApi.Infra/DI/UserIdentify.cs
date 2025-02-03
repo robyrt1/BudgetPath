@@ -26,6 +26,7 @@ namespace FinanceApi.Infra.DI
 
             /* QUERIES */
             services.AddTransient<GetUserByEmailHandlerBase, GetUserByEmailHandlerImp>();
+            services.AddTransient<GetUserByFirebaseUidHandlerBase, GetUserByFirebaseUidHandlerImp>();
             
             return services;
         }

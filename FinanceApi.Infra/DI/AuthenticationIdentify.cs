@@ -14,7 +14,7 @@ namespace FinanceApi.Infra.DI
         public static IServiceCollection AddAuthenticationDepency(IServiceCollection services) {
             /*COMMANDS*/
             services.AddTransient<LoginAuthenticationCommandHandlerBase, LoginAuthenticationCommandHandlerImp>();
-
+            services.AddTransient<LoginAuthenticationByFirebaseCommandHandlerBase, LoginAuthenticationByFirebaseCommandHandlerImp>();
             return services;
         }
 

@@ -9,5 +9,7 @@ namespace FinanceApi.Domain.Users.Port
     public interface IUserQueriesRepositoryBase
     {
         Task<UserEntity> GetByEmail(string email);
+        Task<UserEntity> GetByFirebaseUid(string firebaseUid);
+
     }
 }

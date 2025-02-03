@@ -20,6 +20,6 @@ namespace FinanceApi.Domain.Shared.Interfaces
 
     public interface ITokenService
     {
-        string Generate(UserInput input);
+        public string Generate(UserInput input);
     }
 }

@@ -22,5 +22,10 @@ namespace FinanceApi.Infra.Data.Repositories.Users
         {
             return await _context.Users.Where(user =>user.EmailLower == email.ToLower()).FirstOrDefaultAsync();
         }
+
+        public async Task<UserEntity> GetByFirebaseUid(string firebaseUid)
+        {
+            return await _context.Users.Where(user => user.FirebaseUid == firebaseUid).FirstOrDefaultAsync();
+        }
     }
 }
