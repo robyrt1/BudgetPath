@@ -48,7 +48,8 @@ namespace FinanceApi.Application.Authentication.Commands.Handlers
                 Name = user.Name,
                 Token = _tokenService.Generate(
                         input
-                    )
+                    ),
+                UserId = user.Id,
             };
         }
     }

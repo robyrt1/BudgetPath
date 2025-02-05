@@ -26,7 +26,7 @@ namespace FinanceApi.Domain.Users
         public string Email
         {
             get => _email;
-            set => _email = value.ToLowerInvariant(); // Converte para minúsculas ao definir
+            set => _email = value.ToLowerInvariant();
         }
 
 

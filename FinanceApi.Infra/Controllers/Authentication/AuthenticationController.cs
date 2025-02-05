@@ -4,6 +4,7 @@
     using FinanceApi.Domain.Authentication.Commands.Requests;
     using FinanceApi.Domain.Authentication.Commands.Responses;
     using FinanceApi.Domain.Shared.Execptions;
+    using FinanceApi.Infra.Shared.Http;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using System;
@@ -56,7 +57,7 @@
                     response = await loginAuthenticationByFirebaseCommandHandler.Handle(request);
                 }
 
-                return Ok(response);
+                return ResponseHelper.CreateResponse(response,StatusCodes.Status200OK);
             }
             catch (UnauthorizedException ex)
             {

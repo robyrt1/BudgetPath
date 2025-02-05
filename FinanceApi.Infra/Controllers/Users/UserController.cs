@@ -3,6 +3,7 @@ using FinanceApi.Domain.Users.Commands.Handlers;
 using FinanceApi.Domain.Users.Commands.Requests;
 using FinanceApi.Domain.Users.Queries.Handlers;
 using FinanceApi.Domain.Users.Queries.Requests;
+using FinanceApi.Infra.Shared.Http;
 using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,7 +56,7 @@ namespace FinanceApi.Infra.Controllers.Users
                 var userCreated = await registerUserSystemCommandHandler.Handle(request);
                 var location = Url.Action(nameof(RegisterUserSystem), new { id = userCreated.Id });
 
-                return Created(location, userCreated);
+                return ResponseHelper.CreateResponse(userCreated, StatusCodes.Status201Created);
             }
             catch (Exception ex) {
                 return StatusCode(500, new { StatusCode = StatusCodes.Status500InternalServerError, Details = ex.Message });
@@ -77,7 +78,7 @@ namespace FinanceApi.Infra.Controllers.Users
                 var userCreated = await registerUserFirebaseCommandHandler.Handle(request, cancellationToken);
                 var location = Url.Action(nameof(RegisterUserSystem), new { id = userCreated.Id });
 
-                return Created(location, userCreated);
+                return ResponseHelper.CreateResponse(userCreated, StatusCodes.Status201Created);
             }
             catch (Exception ex)
             {

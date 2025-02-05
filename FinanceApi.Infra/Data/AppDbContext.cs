@@ -1,4 +1,6 @@
-﻿using FinanceApi.Domain.Users;
+﻿using FinanceApi.Domain.Categories;
+using FinanceApi.Domain.GroupCategory;
+using FinanceApi.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
@@ -12,6 +14,8 @@ namespace FinanceApi.Infra.Data
     public class AppDbContext : DbContext
     {
         public DbSet<UserEntity> Users { get; set; }
+        public DbSet<CategoryEntity> Categories { get; set; }
+        public DbSet<GroupCategoryEntity> Group_Category { get; set; }
 
         private IConfiguration _configuration;
 
@@ -31,6 +35,19 @@ namespace FinanceApi.Infra.Data
             modelBuilder.Entity<UserEntity>()
                 .Property(user=> user.EmailLower)
                 .HasComputedColumnSql("LOWER(Email)");
+
+            modelBuilder.Entity<CategoryEntity>()
+                .HasOne(c => c.Group)
+                .WithMany()
+                .HasForeignKey(c => c.GroupId);
+
+            modelBuilder.Entity<CategoryEntity>()
+                .HasMany(c => c.SubCategories)
+                .WithOne()
+                .HasForeignKey(c => c.ParentId);
+
+            modelBuilder.Entity<GroupCategoryEntity>()
+                .ToTable("Group_Category");
         }
     }
 }
