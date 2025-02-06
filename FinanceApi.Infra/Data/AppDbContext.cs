@@ -1,4 +1,5 @@
-﻿using FinanceApi.Domain.Categories;
+﻿using FinanceApi.Domain.Accounts;
+using FinanceApi.Domain.Categories;
 using FinanceApi.Domain.GroupCategory;
 using FinanceApi.Domain.Users;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace FinanceApi.Infra.Data
         public DbSet<UserEntity> Users { get; set; }
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<GroupCategoryEntity> Group_Category { get; set; }
+        public DbSet<AccountEntity> Account { get; set; }
 
         private IConfiguration _configuration;
 

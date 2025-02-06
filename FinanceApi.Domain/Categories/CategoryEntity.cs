@@ -22,7 +22,7 @@ namespace FinanceApi.Domain.Categories
         [Required]
         public Guid GroupId { get; set; }
 
-        public Guid UserId { get; set; }
+        public Guid? UserId { get; set; }
 
         public Guid? ParentId { get; set; }
 

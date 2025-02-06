@@ -1,4 +1,5 @@
 ﻿using FinanceApi.Domain.Categories.Queries.Handlers;
+using FinanceApi.Domain.Categories.Queries.Requests;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,13 @@ namespace FinanceApi.Infra.Controllers.Categories
         public async Task<IActionResult> GetCategories([FromServices] GetCategoriesQueryhandlerBase getCategoriesQueryhandler)
         {
             var categories = await getCategoriesQueryhandler.Handle();
+            return Ok(categories);
+        }
+
+        [HttpGet("ByUser")]
+        public async Task<IActionResult> GetCategoriesByUser([FromQuery] GetCategoriesByUserQueryhandlerRequest request, [FromServices] GetCategoriesByUserQueryhandlerBase getCategoriesByUserQueryhandler)
+        {
+            var categories = await getCategoriesByUserQueryhandler.Handle(request);
             return Ok(categories);
         }
     }

@@ -18,9 +18,9 @@ namespace FinanceApi.Infra.DI
             /* REPOSITORIES */
             services.AddTransient<ICategoriesQueriesRespositoryBase, CategoriesQueriesRespositoryImp>();
 
-            /* COMMANDS */
+            /* QUERIES */
             services.AddTransient<GetCategoriesQueryhandlerBase, GetCategoriesCommandHandlerImp>();
-
+            services.AddTransient<GetCategoriesByUserQueryhandlerBase, GetCategoriesByUserQueryhandlerImp>();
             return services;
         }
     }

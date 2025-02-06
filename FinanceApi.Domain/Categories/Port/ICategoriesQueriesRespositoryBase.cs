@@ -10,5 +10,7 @@ namespace FinanceApi.Domain.Categories.Port
     public interface ICategoriesQueriesRespositoryBase
     {
         Task<IEnumerable<GetCategoriesResponse>> GetCategories();
+        Task<IEnumerable<GetCategoriesResponse>> GetCategoriesByUser(Guid UserId);
+
     }
 }

@@ -42,5 +42,30 @@
 
                 return categories;
             }
+
+        public async Task<IEnumerable<GetCategoriesResponse>> GetCategoriesByUser(Guid UserId)
+        {
+            var categories = await _context.Categories
+                .Where(c => c.ParentId == null && (c.UserId == UserId || c.UserId == null))
+                .Include(c => c.Group)
+                .Include(c => c.SubCategories)
+                    .ThenInclude(sc => sc.Group)
+                .Select(c => new GetCategoriesResponse
+                {
+                    Category = c.Descript,
+                    GroupId = c.GroupId,
+                    DescriptGroup = c.Group.Descript,
+                    SubCategories = c.SubCategories
+                        .Select(sub => new SubCategoryResponse
+                        {
+                            SubCategory = sub.Descript,
+                            GroupId = sub.GroupId,
+                            DescriptGroup = sub.Group.Descript
+                        }).ToList()
+                })
+                .ToListAsync();
+
+            return categories;
         }
+    }
     }
