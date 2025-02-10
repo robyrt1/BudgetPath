@@ -50,6 +50,18 @@ namespace FinanceApi.Infra.Data
 
             modelBuilder.Entity<GroupCategoryEntity>()
                 .ToTable("Group_Category");
+
+            modelBuilder.Entity<AccountEntity>()
+                      .Property(a => a.Balance)
+                      .HasPrecision(18, 4);
+
+            modelBuilder.Entity<AccountEntity>()
+                       .HasOne(a => a.User)
+                       .WithMany()
+                       .HasForeignKey(a => a.UserId);
+
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 }

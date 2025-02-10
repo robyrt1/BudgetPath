@@ -7,9 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Accounts\Commands\" />
-    <Folder Include="Accounts\Port\" />
-    <Folder Include="Accounts\Queries\" />
     <Folder Include="Categories\Commands\Handlers\" />
     <Folder Include="Categories\Commands\Responses\" />
     <Folder Include="Categories\Commands\Requests\" />
