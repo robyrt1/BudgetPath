@@ -27,6 +27,8 @@
                         .ThenInclude(sc => sc.Group)
                     .Select(c => new GetCategoriesResponse
                     {
+                        Id = c.Id,
+                        UserId = c.UserId,
                         Category = c.Descript,
                         GroupId = c.GroupId,
                         DescriptGroup = c.Group.Descript,
@@ -52,6 +54,8 @@
                     .ThenInclude(sc => sc.Group)
                 .Select(c => new GetCategoriesResponse
                 {
+                    Id = c.Id,
+                    UserId = c.UserId,
                     Category = c.Descript,
                     GroupId = c.GroupId,
                     DescriptGroup = c.Group.Descript,

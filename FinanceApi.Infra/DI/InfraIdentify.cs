@@ -1,20 +1,13 @@
-﻿using FinanceApi.Application.User.Queries.Handlers;
+﻿using FinanceApi.Domain.Categories;
 using FinanceApi.Domain.Shared.Interfaces;
-using FinanceApi.Domain.Users.Port;
-using FinanceApi.Domain.Users.Queries.Handlers;
-using FinanceApi.Infra.Data.Repositories.Users;
 using FinanceApi.Infra.Services;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.OData.ModelBuilder;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceApi.Infra.DI
 {
@@ -55,6 +48,18 @@ namespace FinanceApi.Infra.DI
                 };
            });
 
+
+            services.AddControllers().AddOData(options =>
+            {
+                var modelBuilder = new ODataConventionModelBuilder();
+
+                var categoryEntity = modelBuilder.EntitySet<CategoryEntity>("Categories").EntityType;
+
+                categoryEntity.HasMany(c => c.SubCategories);
+
+                options.EnableQueryFeatures()
+                    .AddRouteComponents("odata", modelBuilder.GetEdmModel());
+            });
             return services;
         }
     }

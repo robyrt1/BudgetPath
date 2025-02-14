@@ -29,6 +29,7 @@ namespace FinanceApi.Domain.Categories
         [ForeignKey("GroupId")]
         public GroupCategoryEntity Group {  get; set; }
 
+        [ForeignKey("ParentId")]
         public List<CategoryEntity> SubCategories { get; set; } = new();
     }
 }

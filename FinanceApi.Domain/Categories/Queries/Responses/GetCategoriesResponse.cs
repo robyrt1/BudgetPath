@@ -8,6 +8,8 @@ namespace FinanceApi.Domain.Categories.Queries.Responses
 {
     public class GetCategoriesResponse
     {
+        public Guid Id { get; set; }
+        public Guid? UserId { get; set; }
         public string Category { get; set; }
         public Guid GroupId { get; set; }
         public string DescriptGroup { get; set; }
