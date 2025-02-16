@@ -9,8 +9,11 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Domain.Accounts.Queries.Handler
 {
-    public abstract class GetAccountByUserQueryHandlerBase : HandlerBaseShared<IEnumerable<GetAccountQueryHandlerResponse>, GetAccountByUserQueryHandlerRequest>
+    public abstract class GetAccountQueryHandlerBase: HandlerBaseShared<IQueryable<AccountEntity>, object>
     {
-
+        public virtual IQueryable<AccountEntity> Handle()
+        {
+            throw new NotImplementedException("This method is not implemented.");
+        }
     }
 }

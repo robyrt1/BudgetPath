@@ -22,9 +22,10 @@ namespace FinanceApi.Infra.DI
             services.AddTransient<IAccountWriteRepositoryBase, AccountWriteRepositoryImp>();
             services.AddTransient<IAccountQueriesRepositoryBase, AccountQueriesRepositoryImp>();
             /* MAPPERS */
-            services.AddTransient<IGetAccountByUserMapperBase, GetAccountByUserMapper>();
+            services.AddTransient<IGetAccountMapperBase, GetAccountMapper>();
             /* Queries */
             services.AddTransient<GetAccountByUserQueryHandlerBase,GetAccountByUserQueryHandlerImp>();
+            services.AddTransient<GetAccountQueryHandlerBase, GetAccountQueryHandlerImp>();
             /* COMMANDS */
             services.AddTransient<CreateAccountCommandHandlerBase, CreateAccountCommandHandlerImp>();
             return services;

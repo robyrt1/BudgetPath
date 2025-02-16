@@ -12,15 +12,15 @@ namespace FinanceApi.Application.Accounts.Queries.Handlers
 {
     public class GetAccountByUserQueryHandlerImp : GetAccountByUserQueryHandlerBase
     {
-        private IGetAccountByUserMapperBase _getAccountByUserMapperImp;
+        private IGetAccountMapperBase _getAccountByUserMapperImp;
         private IAccountQueriesRepositoryBase _accountQueriesRepositoryImp;
 
-        public GetAccountByUserQueryHandlerImp(IGetAccountByUserMapperBase getAccountByUserMapperImp, IAccountQueriesRepositoryBase accountQueriesRepositoryImp) {
+        public GetAccountByUserQueryHandlerImp(IGetAccountMapperBase getAccountByUserMapperImp, IAccountQueriesRepositoryBase accountQueriesRepositoryImp) {
             _accountQueriesRepositoryImp = accountQueriesRepositoryImp;
             _getAccountByUserMapperImp = getAccountByUserMapperImp;
         }
 
-        public override async Task<IEnumerable<GetAccountByUserQueryHandlerResponse>> Handle(GetAccountByUserQueryHandlerRequest command)
+        public override async Task<IEnumerable<GetAccountQueryHandlerResponse>> Handle(GetAccountByUserQueryHandlerRequest command)
         {
             var accounts = await _accountQueriesRepositoryImp.GetByUser(command.UserId);
 

@@ -9,17 +9,24 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Application.Accounts.Mappers
 {
-    public class GetAccountByUserMapper : IGetAccountByUserMapperBase
+    public class GetAccountMapper : IGetAccountMapperBase
     {
-        public IEnumerable<GetAccountByUserQueryHandlerResponse> To(IEnumerable<AccountEntity> mapper)
+        public IEnumerable<GetAccountQueryHandlerResponse> To(IEnumerable<AccountEntity> mapper)
         {
             return mapper.ToList()
-                .Select(m => new GetAccountByUserQueryHandlerResponse
+                .Select(m => new GetAccountQueryHandlerResponse
                 {
                     Id = m.Id,
                     Balance = m.Balance ?? 0,
                     CreatedAt = m.CreateAt,
                     Name = m.Name,
+                    User = new UserMapper
+                    {
+                        Id = m.User.Id,
+                        Name = m.User.Name,
+                        CreatedAt = m.User.CreatedAt,
+                        Email = m.User.Email
+                    }
                 });
         }
     }

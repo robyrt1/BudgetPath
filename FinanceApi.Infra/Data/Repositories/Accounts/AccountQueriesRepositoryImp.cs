@@ -23,5 +23,10 @@ namespace FinanceApi.Infra.Data.Repositories.Accounts
         {
             return await _context.Account.Where(a => a.UserId == UserId).ToListAsync();
         }
+
+        public  IQueryable<AccountEntity> GetAccount()
+        {
+            return  _context.Account.Include(a => a.User).AsNoTracking();
+        }
     }
 }

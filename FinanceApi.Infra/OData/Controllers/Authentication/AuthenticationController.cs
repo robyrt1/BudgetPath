@@ -1,4 +1,4 @@
-﻿namespace FinanceApi.Infra.Controllers.Authentication
+﻿namespace FinanceApi.Infra.OData.Controllers.Authentication
 {
     using FinanceApi.Domain.Authentication.Commands.Handlers;
     using FinanceApi.Domain.Authentication.Commands.Requests;

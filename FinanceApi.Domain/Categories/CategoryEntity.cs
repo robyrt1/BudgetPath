@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FinanceApi.Domain.GroupCategory;
 
 namespace FinanceApi.Domain.Categories
@@ -30,6 +25,6 @@ namespace FinanceApi.Domain.Categories
         public GroupCategoryEntity Group {  get; set; }
 
         [ForeignKey("ParentId")]
-        public List<CategoryEntity> SubCategories { get; set; } = new();
+        public IEnumerable<CategoryEntity> SubCategories { get; set; }
     }
 }

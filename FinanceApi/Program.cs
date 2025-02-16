@@ -32,6 +32,7 @@ UserIdentify.AddUserDepency(builder.Services);
 AuthenticationIdentify.AddAuthenticationDepency(builder.Services);
 CategoriesIdentify.AddCategoryDepency(builder.Services);
 AccountIdentify.AddAccountDepency(builder.Services);
+ODataIdentify.AddOData(builder.Services);
 
 var app = builder.Build();
 

@@ -1,4 +1,5 @@
-﻿using FinanceApi.Domain.Categories.Port;
+﻿using FinanceApi.Domain.Categories;
+using FinanceApi.Domain.Categories.Port;
 using FinanceApi.Domain.Categories.Queries.Handlers;
 using FinanceApi.Domain.Categories.Queries.Responses;
 using System;
@@ -16,10 +17,9 @@ namespace FinanceApi.Application.Categories.Queries
             _categoriesQueriesRespository = categoriesQueriesRespository;
         }
 
-        public override async Task<IEnumerable<GetCategoriesResponse>> Handle()
+        public override IQueryable<CategoryEntity> Handle()
         {
-            var categories  = await _categoriesQueriesRespository.GetCategories();
-            return categories;
+            return _categoriesQueriesRespository.GetCategoriesOData();
         }
 
     }

@@ -20,5 +20,7 @@ namespace FinanceApi.Domain.Shared.Abstract
         {
             throw new NotImplementedException("This method is not implemented.");
         }
+
+
     }
 }

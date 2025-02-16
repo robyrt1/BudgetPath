@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Domain.Accounts.Port
 {
-    public interface IGetAccountByUserMapperBase
+    public interface IGetAccountMapperBase
     {
-        public IEnumerable<GetAccountByUserQueryHandlerResponse> To(IEnumerable<AccountEntity> mapper);
+        public IEnumerable<GetAccountQueryHandlerResponse> To(IEnumerable<AccountEntity> mapper);
     }
 }

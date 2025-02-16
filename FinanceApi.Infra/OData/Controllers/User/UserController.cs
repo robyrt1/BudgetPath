@@ -4,32 +4,34 @@ using FinanceApi.Domain.Users.Commands.Requests;
 using FinanceApi.Domain.Users.Queries.Handlers;
 using FinanceApi.Domain.Users.Queries.Requests;
 using FinanceApi.Infra.Shared.Http;
-using FirebaseAdmin.Messaging;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceApi.Infra.Controllers.Users
+namespace FinanceApi.Infra.OData.Controllers.User
 {
     [ApiVersion("1.0")]
-    [Route("api/v{version:apiVersion}/User")]
+    [Route("api/odata/v{version:apiVersion}/User")]
     [ApiController]
-    public class UserController: ControllerBase
+    class UserController : ODataController
     {
         [HttpPost]
-        public async Task<IActionResult>  GetUserByEmail([FromBody] GetUserByEmailRequest Email, [FromServices] GetUserByEmailHandlerBase GetUserByEmailHandler)
+        public async Task<IActionResult> GetUserByEmail([FromBody] GetUserByEmailRequest Email, [FromServices] GetUserByEmailHandlerBase GetUserByEmailHandler)
         {
-            try {
-                var request = new GetUserByEmailRequest {
+            try
+            {
+                var request = new GetUserByEmailRequest
+                {
                     Email = Email.Email
                 };
 
                 var response = await GetUserByEmailHandler.Handle(request);
-         
+
                 return Ok(response);
             }
             catch (NotFoundException ex)
@@ -45,7 +47,8 @@ namespace FinanceApi.Infra.Controllers.Users
         [HttpPost("registerSystem")]
         public async Task<IActionResult> RegisterUserSystem([FromBody] RegisterUserSystemRequest requestUser, [FromServices] RegisterUserSystemCommandHandlerBase registerUserSystemCommandHandler)
         {
-            try {
+            try
+            {
                 var request = new RegisterUserSystemRequest
                 {
                     Email = requestUser.Email,
@@ -58,7 +61,8 @@ namespace FinanceApi.Infra.Controllers.Users
 
                 return ResponseHelper.CreateResponse(userCreated, StatusCodes.Status201Created);
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 return StatusCode(500, new { StatusCode = StatusCodes.Status500InternalServerError, Details = ex.Message });
             }
         }
@@ -87,3 +91,4 @@ namespace FinanceApi.Infra.Controllers.Users
         }
     }
 }
+

@@ -1,7 +1,9 @@
 ﻿using FinanceApi.Domain.Categories;
 using FinanceApi.Domain.Shared.Interfaces;
 using FinanceApi.Infra.Services;
+using FinanceApi.Infra.Shared.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
@@ -48,17 +50,13 @@ namespace FinanceApi.Infra.DI
                 };
            });
 
-
-            services.AddControllers().AddOData(options =>
+            services.AddHttpContextAccessor();
+            services.AddSingleton<IUriService>(o =>
             {
-                var modelBuilder = new ODataConventionModelBuilder();
-
-                var categoryEntity = modelBuilder.EntitySet<CategoryEntity>("Categories").EntityType;
-
-                categoryEntity.HasMany(c => c.SubCategories);
-
-                options.EnableQueryFeatures()
-                    .AddRouteComponents("odata", modelBuilder.GetEdmModel());
+                var accessor = o.GetRequiredService<IHttpContextAccessor>();
+                var request = accessor.HttpContext.Request;
+                var uri = string.Concat(request.Scheme, "://", request.Host.ToUriComponent());
+                return new UriService(uri);
             });
             return services;
         }

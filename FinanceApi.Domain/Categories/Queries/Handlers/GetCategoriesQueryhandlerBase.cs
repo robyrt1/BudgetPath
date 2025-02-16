@@ -8,7 +8,11 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Domain.Categories.Queries.Handlers
 {
-    public class GetCategoriesQueryhandlerBase : HandlerBaseShared<IEnumerable<GetCategoriesResponse>, object>
+    public class GetCategoriesQueryhandlerBase : HandlerBaseShared<IQueryable<CategoryEntity>, object>
     {
+        public virtual IQueryable<CategoryEntity> Handle()
+        {
+            throw new NotImplementedException("This method is not implemented.");
+        }
     }
 }

@@ -1,4 +1,5 @@
-﻿    using FinanceApi.Domain.Categories.Port;
+﻿using FinanceApi.Domain.Categories;
+using FinanceApi.Domain.Categories.Port;
     using FinanceApi.Domain.Categories.Queries.Responses;
     using Microsoft.EntityFrameworkCore;
     using System;
@@ -18,9 +19,10 @@
                 _context = context;
             }
 
-            public async  Task<IEnumerable<GetCategoriesResponse>> GetCategories()
+            public IQueryable<GetCategoriesResponse> GetCategories()
             {
-                var categories = await _context.Categories
+                var categories =  _context.Categories
+                    .AsNoTracking()
                     .Where(c => c.ParentId == null)
                     .Include(c => c.Group)
                     .Include(c => c.SubCategories)
@@ -40,10 +42,19 @@
                                 DescriptGroup = sub.Group.Descript
                             }).ToList()
                     })
-                    .ToListAsync();
+                    .AsQueryable();
 
                 return categories;
             }
+
+        public IQueryable<CategoryEntity> GetCategoriesOData()
+        {
+            var categories = _context.Categories
+                .Include(c => c.SubCategories)
+                .AsNoTracking();
+
+            return categories;
+        }
 
         public async Task<IEnumerable<GetCategoriesResponse>> GetCategoriesByUser(Guid UserId)
         {

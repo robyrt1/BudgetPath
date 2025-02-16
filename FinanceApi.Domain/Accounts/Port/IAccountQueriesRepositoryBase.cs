@@ -9,6 +9,7 @@ namespace FinanceApi.Domain.Accounts.Port
     public interface IAccountQueriesRepositoryBase
     {
         Task<IEnumerable<AccountEntity>> GetByUser(Guid UserId);
+        IQueryable<AccountEntity> GetAccount();
     }
 }
     
