@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Domain.CreditCards.Commands.Responses
 {
-    public class CreateCreditCardResponse
+    public class CommandHandlerCreditCardResponse
     {
         public Guid Id { get; set; }
 

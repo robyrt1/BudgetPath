@@ -32,6 +32,7 @@ namespace FinanceApi.Infra.DI
             services.AddTransient<GetCreditCardsQueryHandlerBase, GetCreditCardsQueryHandlerImp>();
             /* COMMANDS */
             services.AddTransient<CreateCreditCardCommandHandlerBase, CreateCreditCardCommandHandlerImp>();
+            services.AddTransient<UpdateCreditCardCommandHandlerBase, UpdateCreditCardCommandHandlerImp>();
             return services;
         }
     }

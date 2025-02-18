@@ -11,5 +11,6 @@ namespace FinanceApi.Domain.CreditCards.Port
     public interface ICreditCardsWriteRepositoryBase
     {
         public Task<CreditCardEntity> create(CreateCreditCardRequest creditcard);
+        public Task<CreditCardEntity> Update(UpdateCreditCardRequest request);
     }
 }

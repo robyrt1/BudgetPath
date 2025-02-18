@@ -70,5 +70,28 @@
 
             }
         }
+
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateCreditCardRequest request, [FromServices] UpdateCreditCardCommandHandlerBase updateCreditCardCommandHandler)
+        {
+            try
+            {
+                var created = await updateCreditCardCommandHandler.Handle(request);
+                if (created.StatusCode > 299)
+                {
+                    return ResponseHelper.CreateResponse(created, created.StatusCode);
+                }
+                var location = Url.Action(nameof(Create), new { id = created.Details.Id });
+
+                return ResponseHelper.CreateResponse(created, StatusCodes.Status200OK);
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
+
+            }
+        }
+
     }
 }

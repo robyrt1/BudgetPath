@@ -1,6 +1,7 @@
 ﻿using FinanceApi.Domain.CreditCard;
 using FinanceApi.Domain.CreditCards.Commands.Requests;
 using FinanceApi.Domain.CreditCards.Port;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,6 +33,20 @@ namespace FinanceApi.Infra.Data.Repositories.CreditCard
             await _context.SaveChangesAsync();
 
             return CreditCardNew;
+        }
+
+        public async Task<CreditCardEntity> Update(UpdateCreditCardRequest request)
+        {
+            var creditCardOrigin = await _context.CreditCard.SingleAsync(cc => cc.Id == request.Id);
+
+            creditCardOrigin.Closing = request.Closing ?? creditCardOrigin.Closing;
+            creditCardOrigin.AccountId = request.AccountId ?? creditCardOrigin.AccountId;
+            creditCardOrigin.Name = request.Name ?? creditCardOrigin.Name;
+            creditCardOrigin.Limit = request.Limit ?? creditCardOrigin.Limit;
+            creditCardOrigin.Maturity = request.Maturity ?? creditCardOrigin.Maturity;
+
+            await _context.SaveChangesAsync();
+            return creditCardOrigin;
         }
     }
 }

@@ -16,7 +16,7 @@
 
         public IQueryable<CreditCardEntity> GetAll()
         {
-            return _context.CreditCard.AsNoTracking();
+            return _context.CreditCard.Include(cc => cc.Account).AsNoTracking();
         }
 
         public async Task<IQueryable<CreditCardEntity>> GetAllAsync()

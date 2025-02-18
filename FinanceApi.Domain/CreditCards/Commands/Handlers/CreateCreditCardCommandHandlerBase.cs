@@ -5,7 +5,7 @@ using FinanceApi.Domain.Shared.Interfaces;
 
 namespace FinanceApi.Domain.CreditCards.Commands.Handlers
 {
-    public abstract class CreateCreditCardCommandHandlerBase : HandlerBaseShared<ResponseWrapperBase<CreateCreditCardResponse>, CreateCreditCardRequest>
+    public abstract class CreateCreditCardCommandHandlerBase : HandlerBaseShared<ResponseWrapperBase<CommandHandlerCreditCardResponse>, CreateCreditCardRequest>
     {
     }
 }

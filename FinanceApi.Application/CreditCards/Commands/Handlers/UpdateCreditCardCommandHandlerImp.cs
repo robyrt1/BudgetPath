@@ -5,37 +5,42 @@ using FinanceApi.Domain.CreditCards.Commands.Responses;
 using FinanceApi.Domain.CreditCards.Port;
 using FinanceApi.Domain.CreditCards.Queries.Handlers;
 using FinanceApi.Domain.Shared.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace FinanceApi.Application.CreditCards.Commands.Handlers
 {
-    public class CreateCreditCardCommandHandlerImp : CreateCreditCardCommandHandlerBase
+    public class UpdateCreditCardCommandHandlerImp: UpdateCreditCardCommandHandlerBase
     {
         private ICreditCardsWriteRepositoryBase _creditCardsWriteRepository;
         private GetCreditCardsQueryHandlerBase _getCreditCardsQueryHandler;
-        public CreateCreditCardCommandHandlerImp(ICreditCardsWriteRepositoryBase creditCardsWriteRepository, GetCreditCardsQueryHandlerBase getCreditCardsQueryHandler) {
+        public UpdateCreditCardCommandHandlerImp(ICreditCardsWriteRepositoryBase creditCardsWriteRepository, GetCreditCardsQueryHandlerBase getCreditCardsQueryHandler)
+        {
             _creditCardsWriteRepository = creditCardsWriteRepository;
             _getCreditCardsQueryHandler = getCreditCardsQueryHandler;
         }
 
-        public override async Task<ResponseWrapperBase<CommandHandlerCreditCardResponse>>  Handle(CreateCreditCardRequest command)
+        public override async Task<ResponseWrapperBase<CommandHandlerCreditCardResponse>> Handle(UpdateCreditCardRequest command)
         {
             var creditCards = await _getCreditCardsQueryHandler.HandleAsync();
             var shouldCreditCard = creditCards
-                .Where(c => c.Name.ToLower().Contains(command.Name.ToLower()) && c.AccountId == command.AccountId)
-                .ToList();
+                .SingleOrDefault(c => c.Id == command.Id);
 
-            if (shouldCreditCard.Any())
+            if (shouldCreditCard is null)
             {
                 return new ResponseWrapper<CommandHandlerCreditCardResponse>(
                     data: null,
                     statusCode: (int)HttpStatusCode.Conflict,
-                    message: "Já existe um cartão com esse nome para essa conta."
+                    message: "Conta já cadastrado."
                 );
             }
 
 
-            var created = await _creditCardsWriteRepository.create(command);
+            var created = await _creditCardsWriteRepository.Update(command);
 
             return new ResponseWrapper<CommandHandlerCreditCardResponse>(
                   data: new CommandHandlerCreditCardResponse
@@ -47,7 +52,7 @@ namespace FinanceApi.Application.CreditCards.Commands.Handlers
                       Maturity = created.Maturity,
                       Name = created.Name
                   },
-                  statusCode: (int)HttpStatusCode.Created,
+                  statusCode: (int)HttpStatusCode.OK,
                   message: "Sucesso"
                 );
         }
