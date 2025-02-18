@@ -1,0 +1,12 @@
+﻿version: '3.8'
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: finance_db
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "robert@Robert123"
+    ports:
+      - "1434:1433"
+    volumes:
+      - ./init-scripts:/docker-entrypoint-initdb.d

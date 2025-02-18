@@ -1,4 +1,5 @@
-﻿using FinanceApi.Domain.GroupCategory;
+﻿using FinanceApi.Domain.CreditCard;
+using FinanceApi.Domain.GroupCategory;
 using FinanceApi.Domain.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -17,11 +18,11 @@ namespace FinanceApi.Domain.Accounts
         [Required]
         public string Name { get; set; }
 
-        public Decimal? Balance {  get; set; }
+        public decimal? Balance {  get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.Now;
 
         [ForeignKey("UserId")]
-        public UserEntity User { get; set; }
+        public virtual UserEntity User { get; set; }
     }
 }

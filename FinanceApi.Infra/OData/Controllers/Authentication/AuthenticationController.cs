@@ -35,9 +35,9 @@
         /// <returns>The <see cref="Task{IActionResult}"/></returns>
         [HttpPost]
         public async Task<IActionResult> SignIn(
-            [FromBody] AuthenticationRequest authenticationRequest, 
-            [FromServices] LoginAuthenticationCommandHandlerBase loginAuthenticationCommandHandler, 
-            [FromServices] LoginAuthenticationByFirebaseCommandHandlerBase loginAuthenticationByFirebaseCommandHandler, 
+            [FromBody] AuthenticationRequest authenticationRequest,
+            [FromServices] LoginAuthenticationCommandHandlerBase loginAuthenticationCommandHandler,
+            [FromServices] LoginAuthenticationByFirebaseCommandHandlerBase loginAuthenticationByFirebaseCommandHandler,
             CancellationToken cancellationToken
          )
         {
@@ -57,14 +57,14 @@
                     response = await loginAuthenticationByFirebaseCommandHandler.Handle(request);
                 }
 
-                return ResponseHelper.CreateResponse(response,StatusCodes.Status200OK);
+                return ResponseHelper.CreateResponse(response, StatusCodes.Status200OK);
             }
             catch (UnauthorizedException ex)
             {
                 return StatusCode(500, new { StatusCode = StatusCodes.Status401Unauthorized, Details = ex.Message });
 
             }
-            catch(OperationCanceledException)
+            catch (OperationCanceledException)
             {
                 return StatusCode(StatusCodes.Status499ClientClosedRequest, new { StatusCode = StatusCodes.Status499ClientClosedRequest, Details = "A operação foi cancelada." });
             }

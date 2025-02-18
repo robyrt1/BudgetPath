@@ -1,23 +1,22 @@
 ﻿using FinanceApi.Domain.Accounts;
 using FinanceApi.Domain.Categories;
+using FinanceApi.Domain.CreditCard;
 using FinanceApi.Domain.GroupCategory;
 using FinanceApi.Domain.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceApi.Infra.Data
 {
     public class AppDbContext : DbContext
     {
         public DbSet<UserEntity> Users { get; set; }
+
         public DbSet<CategoryEntity> Categories { get; set; }
         public DbSet<GroupCategoryEntity> Group_Category { get; set; }
+        
         public DbSet<AccountEntity> Account { get; set; }
+        public DbSet<CreditCardEntity> CreditCard { get; set; }
 
         private IConfiguration _configuration;
 
@@ -52,14 +51,22 @@ namespace FinanceApi.Infra.Data
                 .ToTable("Group_Category");
 
             modelBuilder.Entity<AccountEntity>()
-                      .Property(a => a.Balance)
-                      .HasPrecision(18, 4);
+                .Property(a => a.Balance)
+                .HasPrecision(18, 4);
 
             modelBuilder.Entity<AccountEntity>()
-                       .HasOne(a => a.User)
-                       .WithMany()
-                       .HasForeignKey(a => a.UserId);
+                .HasOne(a => a.User)
+                .WithMany()
+                .HasForeignKey(a => a.UserId);
 
+
+            modelBuilder.Entity<CreditCardEntity>()
+                .ToTable("CreditCard");
+
+            modelBuilder.Entity<CreditCardEntity>()
+                .HasOne(cc => cc.Account)
+                .WithMany()
+                .HasForeignKey(cc => cc.AccountId);
 
             base.OnModelCreating(modelBuilder);
         }

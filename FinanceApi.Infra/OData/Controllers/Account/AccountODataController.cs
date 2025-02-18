@@ -1,33 +1,34 @@
-﻿using FinanceApi.Domain.Accounts;
-using FinanceApi.Domain.Accounts.Commands.Handlers;
-using FinanceApi.Domain.Accounts.Commands.Requests;
-using FinanceApi.Domain.Accounts.Port;
-using FinanceApi.Domain.Accounts.Queries.Handler;
-using FinanceApi.Infra.Shared.Http;
-using FinanceApi.Infra.Shared.Http.Filter;
-using FinanceApi.Infra.Shared.Http.Helper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.EntityFrameworkCore;
-
-namespace FinanceApi.Infra.OData.Controllers.Account
+﻿namespace FinanceApi.Infra.OData.Controllers.Account
 {
+    using FinanceApi.Domain.Accounts;
+    using FinanceApi.Domain.Accounts.Commands.Handlers;
+    using FinanceApi.Domain.Accounts.Commands.Requests;
+    using FinanceApi.Domain.Accounts.Port;
+    using FinanceApi.Domain.Accounts.Queries.Handler;
+    using FinanceApi.Infra.Shared.Http;
+    using FinanceApi.Infra.Shared.Http.Filter;
+    using FinanceApi.Infra.Shared.Http.Helper;
+    using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.OData.Query;
+    using Microsoft.AspNetCore.OData.Routing.Controllers;
+    using Microsoft.EntityFrameworkCore;
+
     [ApiVersion("1.0")]
-    [Route("odata/{version:apiVersion}/Account")]
+    [Route("odata/v{version:apiVersion}/Account")]
     [ApiController]
     public class AccountODataController : ODataController
     {
         [HttpGet()]
+        [EnableQuery]
         public async Task<IActionResult> GetAccountByUser(
-            [FromServices] GetAccountQueryHandlerBase getAccountQueryHandler, 
+            [FromServices] GetAccountQueryHandlerBase getAccountQueryHandler,
             [FromServices] IGetAccountMapperBase getAccountMapperImp,
             ODataQueryOptions<AccountEntity> queryOptions)
         {
             try
             {
-                IQueryable<AccountEntity> accounts =  getAccountQueryHandler.Handle();
+                IQueryable<AccountEntity> accounts = getAccountQueryHandler.Handle();
                 int totalRecords = await accounts.CountAsync();
                 int skip = queryOptions.Skip?.Value ?? 0;
                 int top = queryOptions.Top?.Value ?? totalRecords;
@@ -65,7 +66,6 @@ namespace FinanceApi.Infra.OData.Controllers.Account
             {
                 return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
             }
-
         }
     }
 }

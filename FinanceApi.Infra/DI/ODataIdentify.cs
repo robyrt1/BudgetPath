@@ -1,5 +1,6 @@
 ﻿using FinanceApi.Domain.Accounts;
 using FinanceApi.Domain.Categories;
+using FinanceApi.Domain.CreditCard;
 using FinanceApi.Domain.Shared.Interfaces;
 using FinanceApi.Infra.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -24,6 +25,12 @@ namespace FinanceApi.Infra.DI
                             categoryEntity.HasMany(c => c.SubCategories);
 
                             var Account = modelBuilder.EntitySet<AccountEntity>("Account").EntityType;
+                            //Account.HasMany(c => c.CreditCard);
+
+                            var creditCards = modelBuilder.EntitySet<CreditCardEntity>("CreditCard").EntityType;
+                            creditCards.HasKey(c => c.Id);
+
+                            options.Select().Expand().Filter().OrderBy().Count();
                             options.EnableQueryFeatures()
                                 .AddRouteComponents("odata/v1", modelBuilder.GetEdmModel());
                         });

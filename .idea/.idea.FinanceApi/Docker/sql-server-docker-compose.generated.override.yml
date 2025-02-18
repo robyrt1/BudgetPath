@@ -1,0 +1,22 @@
+# This is a generated file. Not intended for manual editing.
+version: "3.9"
+services:
+  sqlserver:
+    build:
+      context: "C:\\Users\\rober\\source\\back-end\\FinanceApi\\FinanceApi"
+      dockerfile: "Dockerfile"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net8.0/FinanceApi.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "financeapi:dev"
+    ports: []
+    volumes:
+    - "C:\\Users\\rober\\source\\back-end\\FinanceApi\\FinanceApi:/app:rw"
+    - "C:\\Users\\rober\\source\\back-end\\FinanceApi:/src:rw"
+    - "C:\\Users\\rober\\AppData\\Roaming\\Microsoft\\UserSecrets:/root/.microsoft/usersecrets"
+    - "C:\\Users\\rober\\.nuget\\packages:/root/.nuget/packages"
+    working_dir: "/app"

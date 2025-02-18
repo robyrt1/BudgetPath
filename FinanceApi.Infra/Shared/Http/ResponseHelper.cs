@@ -13,7 +13,7 @@ namespace FinanceApi.Infra.Shared.Http
         {
             return new ObjectResult(new
             {
-                status = statusCode == 200,
+                status = statusCode >= 200 && statusCode < 300,
                 details = data
             })
             {

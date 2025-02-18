@@ -10,7 +10,9 @@
     <Folder Include="Categories\Commands\Handlers\" />
     <Folder Include="Categories\Commands\Responses\" />
     <Folder Include="Categories\Commands\Requests\" />
+    <Folder Include="CreditCards\Queries\Responses\" />
     <Folder Include="Shared\Http\" />
+    <Folder Include="Shared\Wrappers\" />
   </ItemGroup>
 
 </Project>

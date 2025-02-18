@@ -6,11 +6,6 @@ using FinanceApi.Domain.Accounts.Port;
 using FinanceApi.Domain.Accounts.Queries.Handler;
 using FinanceApi.Infra.Data.Repositories.Accounts;
 using Microsoft.Extensions.DependencyInjection;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceApi.Infra.DI
 {
