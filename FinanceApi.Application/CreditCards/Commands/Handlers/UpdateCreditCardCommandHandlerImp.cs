@@ -35,7 +35,7 @@ namespace FinanceApi.Application.CreditCards.Commands.Handlers
                 return new ResponseWrapper<CommandHandlerCreditCardResponse>(
                     data: null,
                     statusCode: (int)HttpStatusCode.Conflict,
-                    message: "Conta já cadastrado."
+                    message: "Conta não cadastrado."
                 );
             }
 
