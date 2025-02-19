@@ -12,6 +12,7 @@ namespace FinanceApi.Domain.Shared.Abstract
         {
             throw new NotImplementedException("This method is not implemented.");
         }
+
         public virtual Task<OutPut> Handle(Input command, CancellationToken cancellationToken)
         {
             throw new NotImplementedException("This method is not implemented.");

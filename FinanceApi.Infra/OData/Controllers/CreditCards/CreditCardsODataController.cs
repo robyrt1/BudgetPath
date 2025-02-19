@@ -57,14 +57,15 @@
             try
             {
                 var created = await createCreditCardCommandHandler.Handle(request);
-                if (created.StatusCode > 299) {
+                if (created.StatusCode > 299)
+                {
                     return ResponseHelper.CreateResponse(created, created.StatusCode);
                 }
                 var location = Url.Action(nameof(Create), new { id = created.Details.Id });
 
                 return ResponseHelper.CreateResponse(created, StatusCodes.Status201Created);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
 
@@ -93,5 +94,24 @@
             }
         }
 
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] DeleteCreditCardRequest request, [FromServices] DeleteCreaditCardCommandHandlerBase deleteCreditCardCommandHandler)
+        {
+            try
+            {
+                var created = await deleteCreditCardCommandHandler.Handle(request);
+                if (created.StatusCode > 299)
+                {
+                    return ResponseHelper.CreateResponse(created, created.StatusCode);
+                }
+
+                return ResponseHelper.CreateResponse(created, StatusCodes.Status200OK);
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
+
+            }
+        }
     }
 }

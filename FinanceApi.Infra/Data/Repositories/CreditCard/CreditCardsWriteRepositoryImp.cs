@@ -1,4 +1,5 @@
-﻿using FinanceApi.Domain.CreditCard;
+﻿using Azure.Core;
+using FinanceApi.Domain.CreditCard;
 using FinanceApi.Domain.CreditCards.Commands.Requests;
 using FinanceApi.Domain.CreditCards.Port;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,7 @@ namespace FinanceApi.Infra.Data.Repositories.CreditCard
             return CreditCardNew;
         }
 
+
         public async Task<CreditCardEntity> Update(UpdateCreditCardRequest request)
         {
             var creditCardOrigin = await _context.CreditCard.SingleAsync(cc => cc.Id == request.Id);
@@ -47,6 +49,14 @@ namespace FinanceApi.Infra.Data.Repositories.CreditCard
 
             await _context.SaveChangesAsync();
             return creditCardOrigin;
+        }
+
+        public async Task Delete(Guid Id)
+        {
+            var creditCardOrigin = await _context.CreditCard.SingleAsync(cc => cc.Id == Id);
+            _context.Remove(creditCardOrigin);
+
+            await _context.SaveChangesAsync();
         }
     }
 }
