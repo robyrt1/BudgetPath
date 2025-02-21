@@ -1,36 +1,23 @@
 ﻿namespace FinanceApi.Infra.Data.Repositories.Accounts
 {
+    using Azure.Core;
     using FinanceApi.Domain.Accounts;
     using FinanceApi.Domain.Accounts.Commands.Requests;
     using FinanceApi.Domain.Accounts.Port;
+    using Microsoft.EntityFrameworkCore;
     using System;
     using System.Threading.Tasks;
 
-    /// <summary>
-    /// Defines the <see cref="AccountWriteRepositoryImp" />
-    /// </summary>
-    public class AccountWriteRepositoryImp : IAccountWriteRepositoryBase
+        public class AccountWriteRepositoryImp : IAccountWriteRepositoryBase
     {
-        /// <summary>
-        /// Defines the _context
-        /// </summary>
-        private readonly AppDbContext _context;
+                private readonly AppDbContext _context;
 
-        /// <summary>
-        /// Initializes a new instance of the <see cref="AccountWriteRepositoryImp"/> class.
-        /// </summary>
-        /// <param name="context">The context<see cref="AppDbContext"/></param>
-        public AccountWriteRepositoryImp(AppDbContext context)
+                public AccountWriteRepositoryImp(AppDbContext context)
         {
             _context = context;
         }
 
-        /// <summary>
-        /// The Create
-        /// </summary>
-        /// <param name="account">The account<see cref="CreateAccountRequest"/></param>
-        /// <returns>The <see cref="Task{AccountEntity}"/></returns>
-        public async Task<AccountEntity> Create(CreateAccountRequest account)
+                public async Task<AccountEntity> Create(CreateAccountRequest account)
         {
             var newAccount = new AccountEntity()
             {
@@ -44,6 +31,25 @@
             await _context.SaveChangesAsync();
 
             return newAccount;
+        }
+
+        public async Task Delete(Guid Id)
+        {
+            var accountOrigin = await _context.Account.SingleAsync(cc => cc.Id == Id);
+            _context.Remove(accountOrigin);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<AccountEntity> Update(UpdateAccountRequest account)
+        {
+            var accountOrigin = await _context.Account.SingleAsync(cc => cc.Id == account.Id);
+            
+            accountOrigin.Balance = account.Balance ?? accountOrigin.Balance;
+            accountOrigin.Name = account.Name ?? accountOrigin.Name;
+
+            await _context.SaveChangesAsync();
+            return accountOrigin;
         }
     }
 }
