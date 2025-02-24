@@ -10,6 +10,8 @@ namespace FinanceApi.Domain.Accounts.Port
     {
         Task<IEnumerable<AccountEntity>> GetByUser(Guid UserId);
         IQueryable<AccountEntity> GetAccount();
+        Task<IQueryable<AccountEntity>> GetAccountAsync();
+
     }
 }
     

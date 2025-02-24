@@ -1,7 +1,7 @@
 ﻿namespace FinanceApi.Infra.OData.Controllers.CreditCards
 {
     using FinanceApi.Domain.Accounts;
-    using FinanceApi.Domain.CreditCard;
+    using FinanceApi.Domain.CreditCards;
     using FinanceApi.Domain.CreditCards.Commands.Handlers;
     using FinanceApi.Domain.CreditCards.Commands.Requests;
     using FinanceApi.Domain.CreditCards.Queries.Handlers;
@@ -95,7 +95,7 @@
         }
 
         [HttpDelete]
-        public async Task<IActionResult> Delete([FromBody] DeleteCreditCardRequest request, [FromServices] DeleteCreaditCardCommandHandlerBase deleteCreditCardCommandHandler)
+        public async Task<IActionResult> Delete([FromBody] DeleteCreditCardRequest request, [FromServices] DeleteCreditCardCommandHandlerBase deleteCreditCardCommandHandler)
         {
             try
             {

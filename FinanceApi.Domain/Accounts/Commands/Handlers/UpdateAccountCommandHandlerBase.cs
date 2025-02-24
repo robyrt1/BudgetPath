@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FinanceApi.Domain.Accounts.Commands.Requests;
+using FinanceApi.Domain.Accounts.Commands.Responses;
+using FinanceApi.Domain.Shared.Abstract;
+using FinanceApi.Domain.Shared.Interfaces;
 
 namespace FinanceApi.Domain.Accounts.Commands.Handlers
 {
-    class UpdateAccountCommandHandlerBase
+    public abstract class UpdateAccountCommandHandlerBase : HandlerBaseShared<ResponseWrapperBase<UpdateAccountResponse>, UpdateAccountRequest>
     {
     }
 }

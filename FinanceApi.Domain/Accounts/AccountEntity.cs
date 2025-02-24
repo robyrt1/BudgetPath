@@ -1,6 +1,4 @@
-﻿using FinanceApi.Domain.CreditCard;
-using FinanceApi.Domain.GroupCategory;
-using FinanceApi.Domain.Users;
+﻿using FinanceApi.Domain.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 

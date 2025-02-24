@@ -15,5 +15,10 @@ namespace FinanceApi.Domain.Accounts.Queries.Handler
         {
             throw new NotImplementedException("This method is not implemented.");
         }
+
+        public virtual Task<IQueryable<AccountEntity>> HandleAsync()
+        {
+            throw new NotImplementedException("This method is not implemented.");
+        }
     }
 }

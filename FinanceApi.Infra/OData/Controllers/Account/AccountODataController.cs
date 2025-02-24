@@ -5,6 +5,8 @@
     using FinanceApi.Domain.Accounts.Commands.Requests;
     using FinanceApi.Domain.Accounts.Port;
     using FinanceApi.Domain.Accounts.Queries.Handler;
+    using FinanceApi.Domain.CreditCards.Commands.Handlers;
+    using FinanceApi.Domain.CreditCards.Commands.Requests;
     using FinanceApi.Infra.Shared.Http;
     using FinanceApi.Infra.Shared.Http.Filter;
     using FinanceApi.Infra.Shared.Http.Helper;
@@ -65,6 +67,47 @@
             catch (Exception ex)
             {
                 return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
+            }
+        }
+
+
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] UpdateAccountRequest request, [FromServices] UpdateAccountCommandHandlerBase updateAccountCommandHandler)
+        {
+            try
+            {
+                var updated = await updateAccountCommandHandler.Handle(request);
+                if (updated.StatusCode > 299)
+                {
+                    return ResponseHelper.CreateResponse(updated, updated.StatusCode);
+                }
+                var location = Url.Action(nameof(Create), new { id = updated.Details.Id });
+
+                return ResponseHelper.CreateResponse(updated, StatusCodes.Status200OK);
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> Delete([FromBody] DeleteAccountRequest request, [FromServices] DeleteAccountCommandHandlerBase deleteAccountCommandHandler)
+        {
+            try
+            {
+                var deleted = await deleteAccountCommandHandler.Handle(request);
+                if (deleted.StatusCode > 299)
+                {
+                    return ResponseHelper.CreateResponse(deleted, deleted.StatusCode);
+                }
+
+                return ResponseHelper.CreateResponse(deleted, StatusCodes.Status200OK);
+            }
+            catch (Exception ex)
+            {
+                return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
+
             }
         }
     }

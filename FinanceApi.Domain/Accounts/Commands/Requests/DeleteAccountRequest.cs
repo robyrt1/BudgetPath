@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Domain.Accounts.Commands.Requests
 {
-    class DeleteAccountRequest
+    public class DeleteAccountRequest
     {
         public Guid Id { get; set; }
     }

@@ -23,6 +23,8 @@ namespace FinanceApi.Infra.DI
             services.AddTransient<GetAccountQueryHandlerBase, GetAccountQueryHandlerImp>();
             /* COMMANDS */
             services.AddTransient<CreateAccountCommandHandlerBase, CreateAccountCommandHandlerImp>();
+            services.AddTransient<UpdateAccountCommandHandlerBase, UpdateAccountCommandHandlerImp>();
+            services.AddTransient<DeleteAccountCommandHandlerBase,DeleteAccountCommandHandlerImp>();
             return services;
         }
     }

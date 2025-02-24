@@ -1,4 +1,4 @@
-﻿using FinanceApi.Domain.CreditCard;
+﻿using FinanceApi.Domain.CreditCards;
 using FinanceApi.Domain.CreditCards.Port;
 using FinanceApi.Domain.CreditCards.Queries.Handlers;
 using System;

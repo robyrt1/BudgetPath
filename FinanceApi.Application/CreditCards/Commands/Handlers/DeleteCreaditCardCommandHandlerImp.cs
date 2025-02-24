@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace FinanceApi.Application.CreditCards.Commands.Handlers
 {
-    public class DeleteCreaditCardCommandHandlerImp : DeleteCreaditCardCommandHandlerBase
+    public class DeleteCreaditCardCommandHandlerImp : DeleteCreditCardCommandHandlerBase
     {
         private ICreditCardsWriteRepositoryBase _creditCardsWriteRepository;
         private GetCreditCardsQueryHandlerBase _getCreditCardsQueryHandler;

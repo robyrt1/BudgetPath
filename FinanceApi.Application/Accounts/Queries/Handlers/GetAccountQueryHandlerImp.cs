@@ -21,5 +21,10 @@ namespace FinanceApi.Application.Accounts.Queries.Handlers
 
             return accounts;
         }
+
+        public override Task<IQueryable<AccountEntity>> HandleAsync()
+        {
+            return _accountQueriesRepositoryImp.GetAccountAsync();
+        }
     }
 }

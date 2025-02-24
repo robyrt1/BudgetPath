@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using FinanceApi.Domain.Accounts;
 
-namespace FinanceApi.Domain.CreditCard
+namespace FinanceApi.Domain.CreditCards
 {
     public class CreditCardEntity
     {

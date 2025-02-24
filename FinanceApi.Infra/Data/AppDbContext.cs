@@ -1,6 +1,6 @@
 ﻿using FinanceApi.Domain.Accounts;
 using FinanceApi.Domain.Categories;
-using FinanceApi.Domain.CreditCard;
+using FinanceApi.Domain.CreditCards;
 using FinanceApi.Domain.GroupCategory;
 using FinanceApi.Domain.Users;
 using Microsoft.EntityFrameworkCore;

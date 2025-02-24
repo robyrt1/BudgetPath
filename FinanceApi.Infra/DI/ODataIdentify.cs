@@ -1,6 +1,6 @@
 ﻿using FinanceApi.Domain.Accounts;
 using FinanceApi.Domain.Categories;
-using FinanceApi.Domain.CreditCard;
+using FinanceApi.Domain.CreditCards;
 using FinanceApi.Domain.Shared.Interfaces;
 using FinanceApi.Infra.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;

@@ -1,5 +1,4 @@
-﻿using FinanceApi.Domain.CreditCard;
-using FinanceApi.Domain.CreditCards.Commands.Requests;
+﻿using FinanceApi.Domain.CreditCards.Commands.Requests;
 using System;
 using System.Collections.Generic;
 using System.Linq;

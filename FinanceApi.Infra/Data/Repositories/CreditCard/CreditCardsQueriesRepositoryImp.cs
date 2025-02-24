@@ -1,8 +1,9 @@
 ﻿namespace FinanceApi.Infra.Data.Repositories.CreditCard
 {
-    using FinanceApi.Domain.CreditCard;
+    using FinanceApi.Domain.CreditCards;
     using FinanceApi.Domain.CreditCards.Port;
     using Microsoft.EntityFrameworkCore;
+
 
     public class CreditCardsQueriesRepositoryImp : ICreditCardsQueriesRepositoryBase
     {

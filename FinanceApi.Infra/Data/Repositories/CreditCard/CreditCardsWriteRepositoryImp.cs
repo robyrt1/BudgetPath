@@ -1,13 +1,7 @@
-﻿using Azure.Core;
-using FinanceApi.Domain.CreditCard;
+﻿using FinanceApi.Domain.CreditCards;
 using FinanceApi.Domain.CreditCards.Commands.Requests;
 using FinanceApi.Domain.CreditCards.Port;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceApi.Infra.Data.Repositories.CreditCard
 {
