@@ -18,7 +18,7 @@ namespace FinanceApi.Infra.OData.Controllers.User
     [ApiVersion("1.0")]
     [Route("api/odata/v{version:apiVersion}/User")]
     [ApiController]
-    class UserController : ODataController
+    public class UserController : ODataController
     {
         [HttpPost]
         public async Task<IActionResult> GetUserByEmail([FromBody] GetUserByEmailRequest Email, [FromServices] GetUserByEmailHandlerBase GetUserByEmailHandler)

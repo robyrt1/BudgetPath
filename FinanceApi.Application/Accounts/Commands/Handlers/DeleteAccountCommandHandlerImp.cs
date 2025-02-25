@@ -26,7 +26,7 @@ namespace FinanceApi.Application.Accounts.Commands.Handlers
             return new ResponseWrapper<object>(
                     data: null,
                     statusCode: (int)HttpStatusCode.OK,
-                    message: "Atualizado com sucesso"
+                    message: "Conta Deletada"
                 );
         }
 
