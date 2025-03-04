@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
-namespace FinanceApi.Infra.Data.Repositories.Users
+namespace FinanceApi.Infra.Persistence.Repositories.Users
 {
     public class UserWriteRepository : IUserWriteRepositoryBase
     {

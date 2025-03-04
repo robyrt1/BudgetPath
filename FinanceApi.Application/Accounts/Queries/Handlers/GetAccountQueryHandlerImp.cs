@@ -1,30 +1,28 @@
 ﻿using FinanceApi.Domain.Accounts;
-using FinanceApi.Domain.Accounts.Port;
 using FinanceApi.Domain.Accounts.Queries.Handler;
+using FinanceApi.Domain.Shared.Interfaces;
 
 namespace FinanceApi.Application.Accounts.Queries.Handlers
 {
     public class GetAccountQueryHandlerImp : GetAccountQueryHandlerBase
     {
-        private IGetAccountMapperBase _getAccountMapperImp;
-        private IAccountQueriesRepositoryBase _accountQueriesRepositoryImp;
+        private readonly IQueriesRepositoryBase<AccountEntity> _accountQueriesRepositoryImp;
 
-        public GetAccountQueryHandlerImp(IGetAccountMapperBase getAccountByUserMapperImp, IAccountQueriesRepositoryBase accountQueriesRepositoryImp)
+        public GetAccountQueryHandlerImp(IQueriesRepositoryBase<AccountEntity> accountQueriesRepositoryImp)
         {
             _accountQueriesRepositoryImp = accountQueriesRepositoryImp;
-            _getAccountMapperImp = getAccountByUserMapperImp;
         }
 
         public override  IQueryable<AccountEntity> Handle()
         {
-            var accounts =  _accountQueriesRepositoryImp.GetAccount();
+            var accounts =  _accountQueriesRepositoryImp.GetAll();
 
             return accounts;
         }
 
         public override Task<IQueryable<AccountEntity>> HandleAsync()
         {
-            return _accountQueriesRepositoryImp.GetAccountAsync();
+            return _accountQueriesRepositoryImp.GetAllAsync();
         }
     }
 }

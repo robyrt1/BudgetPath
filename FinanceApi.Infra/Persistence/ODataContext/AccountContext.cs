@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApi.Infra.Data.ODataContext
+namespace FinanceApi.Infra.Persistence.ODataContext
 {
     public class AccountContext : DbContext
     {

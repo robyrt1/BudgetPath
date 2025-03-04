@@ -3,7 +3,7 @@ using FinanceApi.Domain.CreditCards.Commands.Requests;
 using FinanceApi.Domain.CreditCards.Port;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinanceApi.Infra.Data.Repositories.CreditCard
+namespace FinanceApi.Infra.Persistence.Repositories.CreditCard
 {
     public class CreditCardsWriteRepositoryImp : ICreditCardsWriteRepositoryBase
     {

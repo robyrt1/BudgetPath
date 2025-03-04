@@ -13,6 +13,9 @@
     <Folder Include="CreditCards\Queries\Responses\" />
     <Folder Include="Shared\Http\" />
     <Folder Include="Shared\Wrappers\" />
+    <Folder Include="Transactions\Commands\Handlers\" />
+    <Folder Include="Transactions\Commands\Rsponses\" />
+    <Folder Include="Transactions\Commands\Requests\" />
   </ItemGroup>
 
 </Project>

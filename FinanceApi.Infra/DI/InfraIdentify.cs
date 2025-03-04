@@ -1,5 +1,6 @@
 ﻿using FinanceApi.Domain.Categories;
 using FinanceApi.Domain.Shared.Interfaces;
+using FinanceApi.Infra.Persistence;
 using FinanceApi.Infra.Services;
 using FinanceApi.Infra.Shared.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -20,6 +21,8 @@ namespace FinanceApi.Infra.DI
             services.AddTransient<ICryptHash, BCryptPasswordHasher>();
             services.AddTransient<IFirebase, FirebaseService>();
 
+            services.AddScoped(typeof(IQueriesRepositoryBase<>), typeof(QueriesRepositoryBase<>));
+            services.AddScoped(typeof(ICommandRepositoryBase<>), typeof(CommandRepositoryBase<>));
 
             services.AddAuthorization();
             services.AddScoped<ITokenService, TokenService>();

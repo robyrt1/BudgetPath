@@ -1,15 +1,15 @@
 ﻿using FinanceApi.Domain.Categories;
 using FinanceApi.Domain.Categories.Port;
-    using FinanceApi.Domain.Categories.Queries.Responses;
-    using Microsoft.EntityFrameworkCore;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+using FinanceApi.Domain.Categories.Queries.Responses;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-    namespace FinanceApi.Infra.Data.Repositories.Categories
-    {
+namespace FinanceApi.Infra.Persistence.Repositories.Categories
+{
         public class CategoriesQueriesRespositoryImp : ICategoriesQueriesRespositoryBase
         {
             private readonly AppDbContext _context;

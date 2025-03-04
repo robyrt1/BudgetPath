@@ -1,4 +1,3 @@
-using FinanceApi.Infra.Data;
 using FinanceApi.Infra.DI;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using FinanceApi.Infra.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddCors(options =>

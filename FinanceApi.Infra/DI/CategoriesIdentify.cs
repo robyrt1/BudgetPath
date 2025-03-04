@@ -1,7 +1,7 @@
 ﻿using FinanceApi.Application.Categories.Queries;
 using FinanceApi.Domain.Categories.Port;
 using FinanceApi.Domain.Categories.Queries.Handlers;
-using FinanceApi.Infra.Data.Repositories.Categories;
+using FinanceApi.Infra.Persistence.Repositories.Categories;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

@@ -3,7 +3,7 @@ using FinanceApi.Application.User.Queries.Handlers;
 using FinanceApi.Domain.Users.Commands.Handlers;
 using FinanceApi.Domain.Users.Port;
 using FinanceApi.Domain.Users.Queries.Handlers;
-using FinanceApi.Infra.Data.Repositories.Users;
+using FinanceApi.Infra.Persistence.Repositories.Users;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;

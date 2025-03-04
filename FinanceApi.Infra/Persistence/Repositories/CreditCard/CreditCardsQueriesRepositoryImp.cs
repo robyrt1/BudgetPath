@@ -1,7 +1,8 @@
-﻿namespace FinanceApi.Infra.Data.Repositories.CreditCard
+﻿namespace FinanceApi.Infra.Persistence.Repositories.CreditCard
 {
     using FinanceApi.Domain.CreditCards;
     using FinanceApi.Domain.CreditCards.Port;
+    using FinanceApi.Infra.Persistence;
     using Microsoft.EntityFrameworkCore;
 
 

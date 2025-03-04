@@ -66,6 +66,8 @@
             }
             catch (Exception ex)
             {
+                Console.WriteLine(ex.InnerException?.Message);
+                Console.WriteLine(ex.StackTrace);
                 return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
             }
         }

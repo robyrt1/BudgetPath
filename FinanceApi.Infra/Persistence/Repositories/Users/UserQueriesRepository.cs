@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceApi.Infra.Data.Repositories.Users
+namespace FinanceApi.Infra.Persistence.Repositories.Users
 {
     public class UserQueriesRepository : IUserQueriesRepositoryBase
     {

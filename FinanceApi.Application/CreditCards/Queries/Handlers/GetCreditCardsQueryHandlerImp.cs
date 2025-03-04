@@ -1,6 +1,8 @@
 ﻿using FinanceApi.Domain.CreditCards;
 using FinanceApi.Domain.CreditCards.Port;
 using FinanceApi.Domain.CreditCards.Queries.Handlers;
+using FinanceApi.Domain.Shared.Interfaces;
+using FinanceApi.Domain.Transactions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +13,9 @@ namespace FinanceApi.Application.CreditCards.Queries.Handlers
 {
     public class GetCreditCardsQueryHandlerImp : GetCreditCardsQueryHandlerBase
     {
-        private ICreditCardsQueriesRepositoryBase _creditCardsQueriesRepository;
+        private readonly IQueriesRepositoryBase<CreditCardEntity> _creditCardsQueriesRepository;
 
-        public GetCreditCardsQueryHandlerImp(ICreditCardsQueriesRepositoryBase creditCardsQueriesRepository) {
+        public GetCreditCardsQueryHandlerImp(IQueriesRepositoryBase<CreditCardEntity> creditCardsQueriesRepository) {
             _creditCardsQueriesRepository = creditCardsQueriesRepository;
         }
 
