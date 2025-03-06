@@ -1,15 +1,10 @@
 ﻿using FinanceApi.Domain.Accounts;
 using FinanceApi.Domain.Categories;
 using FinanceApi.Domain.CreditCards;
-using FinanceApi.Domain.Shared.Interfaces;
-using FinanceApi.Infra.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Mvc;
+using FinanceApi.Domain.Transactions;
 using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OData.ModelBuilder;
-using System.Text;
 
 namespace FinanceApi.Infra.DI
 {
@@ -25,10 +20,11 @@ namespace FinanceApi.Infra.DI
                             categoryEntity.HasMany(c => c.SubCategories);
 
                             var Account = modelBuilder.EntitySet<AccountEntity>("Account").EntityType;
-                            //Account.HasMany(c => c.CreditCard);
 
                             var creditCards = modelBuilder.EntitySet<CreditCardEntity>("CreditCard").EntityType;
                             creditCards.HasKey(c => c.Id);
+
+                            var transactions = modelBuilder.EntitySet<TransactionsEntity>("Transactions").EntityType;
 
                             options.Select().Expand().Filter().OrderBy().Count();
                             options.EnableQueryFeatures()

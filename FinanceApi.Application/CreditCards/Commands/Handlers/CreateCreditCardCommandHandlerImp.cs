@@ -1,31 +1,31 @@
 ﻿using FinanceApi.Application.Shared.Wrappers;
+using FinanceApi.Domain.CreditCards;
 using FinanceApi.Domain.CreditCards.Commands.Handlers;
 using FinanceApi.Domain.CreditCards.Commands.Requests;
 using FinanceApi.Domain.CreditCards.Commands.Responses;
-using FinanceApi.Domain.CreditCards.Port;
-using FinanceApi.Domain.CreditCards.Queries.Handlers;
 using FinanceApi.Domain.Shared.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Net;
 
 namespace FinanceApi.Application.CreditCards.Commands.Handlers
 {
     public class CreateCreditCardCommandHandlerImp : CreateCreditCardCommandHandlerBase
     {
-        private ICreditCardsWriteRepositoryBase _creditCardsWriteRepository;
-        private GetCreditCardsQueryHandlerBase _getCreditCardsQueryHandler;
-        public CreateCreditCardCommandHandlerImp(ICreditCardsWriteRepositoryBase creditCardsWriteRepository, GetCreditCardsQueryHandlerBase getCreditCardsQueryHandler) {
+        private ICommandRepositoryBase<CreditCardEntity> _creditCardsWriteRepository;
+        private readonly IQueriesRepositoryBase<CreditCardEntity> _getCreditCardsQueryHandler;
+
+        public CreateCreditCardCommandHandlerImp(ICommandRepositoryBase<CreditCardEntity> creditCardsWriteRepository, IQueriesRepositoryBase<CreditCardEntity> getCreditCardsQueryHandler) {
             _creditCardsWriteRepository = creditCardsWriteRepository;
             _getCreditCardsQueryHandler = getCreditCardsQueryHandler;
         }
 
         public override async Task<ResponseWrapperBase<CommandHandlerCreditCardResponse>>  Handle(CreateCreditCardRequest command)
         {
-            var creditCards = await _getCreditCardsQueryHandler.HandleAsync();
-            var shouldCreditCard = creditCards
-                .Where(c => c.Name.ToLower().Contains(command.Name.ToLower()) && c.AccountId == command.AccountId)
-                .ToList();
+            var creditCard = await _getCreditCardsQueryHandler.Find(
+                    c => c.Name.ToLower().Contains(command.Name.ToLower()) && c.AccountId == command.AccountId)
+                .ToListAsync();
 
-            if (shouldCreditCard.Any())
+            if (creditCard.Any())
             {
                 return new ResponseWrapper<CommandHandlerCreditCardResponse>(
                     data: null,
@@ -34,18 +34,26 @@ namespace FinanceApi.Application.CreditCards.Commands.Handlers
                 );
             }
 
+            var CreditCardNew = new CreditCardEntity()
+            {
+                Name = command.Name,
+                AccountId = command.AccountId,
+                Maturity = command.Maturity,
+                Closing = command.Closing,
+                Limit = command.Limit ?? 0
+            };
 
-            var created = await _creditCardsWriteRepository.create(command);
+            await _creditCardsWriteRepository.AddAsync(CreditCardNew);
 
             return new ResponseWrapper<CommandHandlerCreditCardResponse>(
                   data: new CommandHandlerCreditCardResponse
                   {
-                      Id = created.Id,
-                      AccountId = created.AccountId,
-                      Closing = created.Closing,
-                      Limit = created.Limit,
-                      Maturity = created.Maturity,
-                      Name = created.Name
+                      Id = CreditCardNew.Id,
+                      AccountId = CreditCardNew.AccountId,
+                      Closing = CreditCardNew.Closing,
+                      Limit = CreditCardNew.Limit,
+                      Maturity = CreditCardNew.Maturity,
+                      Name = CreditCardNew.Name
                   },
                   statusCode: (int)HttpStatusCode.Created,
                   message: "Sucesso"

@@ -1,13 +1,8 @@
 ﻿namespace FinanceApi.Domain.Transactions
 {
     using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Security.Principal;
-    using System.Text;
-    using System.Threading.Tasks;
     using FinanceApi.Domain.Users;
     using FinanceApi.Domain.Accounts;
     using FinanceApi.Domain.CreditCards;
@@ -15,7 +10,7 @@
     using FinanceApi.Domain.DebtInstallments;
     using FinanceApi.Domain.Categories;
 
-    public class TransactionsEntity
+    public class    TransactionsEntity
     {
         [Key]
         public Guid Id { get; set; }

@@ -33,6 +33,7 @@ AuthenticationIdentify.AddAuthenticationDepency(builder.Services);
 CategoriesIdentify.AddCategoryDepency(builder.Services);
 AccountIdentify.AddAccountDepency(builder.Services);
 CreditCardIdentify.AddCreditCartDepency(builder.Services);
+TransactionsIdentify.AddTransactionsDepency(builder.Services);
 ODataIdentify.AddOData(builder.Services);
 
 var app = builder.Build();
