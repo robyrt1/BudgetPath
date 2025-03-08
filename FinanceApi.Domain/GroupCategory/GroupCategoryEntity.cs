@@ -18,6 +18,6 @@
             [StringLength(255)]
             public string Descript { get; set; }
 
-            public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+            public DateTime CREATED_AT{ get; set; } = DateTime.UtcNow;
         }
     }

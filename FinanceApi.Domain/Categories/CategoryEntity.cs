@@ -22,7 +22,7 @@ namespace FinanceApi.Domain.Categories
         public Guid? ParentId { get; set; }
 
         [ForeignKey("GroupId")]
-        public GroupCategoryEntity Group {  get; set; }
+        public virtual GroupCategoryEntity Group {  get; set; }
 
         [ForeignKey("ParentId")]
         public IEnumerable<CategoryEntity> SubCategories { get; set; }

@@ -10,7 +10,7 @@
     using FinanceApi.Domain.DebtInstallments;
     using FinanceApi.Domain.Categories;
 
-    public class    TransactionsEntity
+    public class TransactionsEntity
     {
         [Key]
         public Guid Id { get; set; }
@@ -41,8 +41,7 @@
         public DateTime TransactionDate { get; set; }
 
         [Required]
-        [StringLength(50)]
-        public string PaymentMethod { get; set; }
+        public Guid PaymentMethodId { get; set; }
 
         [StringLength(50)]
         public string Status { get; set; }

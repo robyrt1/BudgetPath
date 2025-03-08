@@ -20,7 +20,7 @@ namespace FinanceApi.Infra.OData.Controllers.Transactions
     {
 
         [HttpGet]
-        [EnableQuery]
+        [EnableQuery(MaxExpansionDepth = 3)]
         public async Task<IActionResult> FindTransactionOData([FromServices] FindTransactionsQueryHandlerBase findTransactionsQueryHandler, ODataQueryOptions<TransactionsEntity> queryOptions)
         {
             try
