@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApi.Infra.OData.Controllers.Categories
 {
-    [Route("odata/v1/[controller]")]
+    [Route("api/odata/v1/[controller]")]
     [ApiController]
     public class CategoriesODataController : ODataController
     {

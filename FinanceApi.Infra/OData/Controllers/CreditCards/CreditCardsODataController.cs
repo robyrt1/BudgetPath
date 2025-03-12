@@ -18,7 +18,7 @@
     using System.Threading.Tasks;
 
     [ApiVersion("1.0")]
-    [Route("odata/v{version:apiVersion}/CreditCards")]
+    [Route("api/odata/v{version:apiVersion}/CreditCards")]
     [ApiController]
     public class CreditCardsODataController : ODataController
     {

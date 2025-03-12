@@ -14,7 +14,7 @@ using Microsoft.EntityFrameworkCore;
 namespace FinanceApi.Infra.OData.Controllers.Transactions
 {
     [ApiVersion("1.0")]
-    [Route("odata/v{version:apiVersion}/Transactions")]
+    [Route("api/odata/v{version:apiVersion}/Transactions")]
     [ApiController]
     public class TransactionsODataController: ODataController
     {

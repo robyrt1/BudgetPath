@@ -6,6 +6,7 @@
     using FinanceApi.Domain.DebtInstallments;
     using FinanceApi.Domain.Debts;
     using FinanceApi.Domain.GroupCategory;
+    using FinanceApi.Domain.PaymentMethod;
     using FinanceApi.Domain.Transactions;
     using FinanceApi.Domain.Users;
     using Microsoft.EntityFrameworkCore;
@@ -25,6 +26,7 @@
         public DbSet<DebtInstallmentsEntity> DebtInstallments { get; set; }
 
         public DbSet<TransactionsEntity> Transactions { get; set; }
+        public DbSet<PaymentMethodEntity> PaymentMethod { get; set; }
 
         private IConfiguration _configuration;
 
@@ -101,33 +103,41 @@
                 .HasForeignKey(d => d.CategoryId);
             modelBuilder.Entity<TransactionsEntity>()
                .HasOne(t => t.User)
-               .WithMany() // ou especificar a navegação reversa
+               .WithMany()
                .HasForeignKey(t => t.UserId);
 
             modelBuilder.Entity<TransactionsEntity>()
                 .HasOne(t => t.Account)
-                .WithMany() // ou especificar a navegação reversa
+                .WithMany()
                 .HasForeignKey(t => t.AccountId);
 
             modelBuilder.Entity<TransactionsEntity>()
                 .HasOne(t => t.CreditCard)
-                .WithMany() // ou especificar a navegação reversa
+                .WithMany()
                 .HasForeignKey(t => t.CreditCardId);
 
             modelBuilder.Entity<TransactionsEntity>()
                 .HasOne(t => t.Debt)
-                .WithMany() // ou especificar a navegação reversa
+                .WithMany()
                 .HasForeignKey(t => t.DebtId);
 
             modelBuilder.Entity<TransactionsEntity>()
                 .HasOne(t => t.DebtInstallment)
-                .WithMany() // ou especificar a navegação reversa
+                .WithMany()
                 .HasForeignKey(t => t.InstallmentId);
 
             modelBuilder.Entity<TransactionsEntity>()
                 .HasOne(t => t.Category)
-                .WithMany() // ou especificar a navegação reversa
+                .WithMany()
                 .HasForeignKey(t => t.CategoryId);
+
+            modelBuilder.Entity<TransactionsEntity>()
+                .HasOne(t => t.PaymentMethod)
+                .WithMany()
+                .HasForeignKey(t => t.PaymentMethodId);
+
+            modelBuilder.Entity<PaymentMethodEntity>()
+                .ToTable("PaymentMethod");
             base.OnModelCreating(modelBuilder);
         }
     }

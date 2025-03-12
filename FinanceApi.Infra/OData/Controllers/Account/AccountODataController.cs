@@ -17,7 +17,7 @@
     using Microsoft.EntityFrameworkCore;
 
     [ApiVersion("1.0")]
-    [Route("odata/v{version:apiVersion}/Account")]
+    [Route("api/odata/v{version:apiVersion}/Account")]
     [ApiController]
     public class AccountODataController : ODataController
     {

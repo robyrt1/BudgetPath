@@ -1,65 +1,69 @@
-﻿namespace FinanceApi.Domain.Transactions
-{
-    using System;
-    using System.ComponentModel.DataAnnotations.Schema;
-    using System.ComponentModel.DataAnnotations;
-    using FinanceApi.Domain.Users;
-    using FinanceApi.Domain.Accounts;
-    using FinanceApi.Domain.CreditCards;
-    using FinanceApi.Domain.Debts;
-    using FinanceApi.Domain.DebtInstallments;
-    using FinanceApi.Domain.Categories;
-
-    public class TransactionsEntity
+﻿    namespace FinanceApi.Domain.Transactions
     {
-        [Key]
-        public Guid Id { get; set; }
+        using System;
+        using System.ComponentModel.DataAnnotations.Schema;
+        using System.ComponentModel.DataAnnotations;
+        using FinanceApi.Domain.Users;
+        using FinanceApi.Domain.Accounts;
+        using FinanceApi.Domain.CreditCards;
+        using FinanceApi.Domain.Debts;
+        using FinanceApi.Domain.DebtInstallments;
+        using FinanceApi.Domain.Categories;
+        using FinanceApi.Domain.PaymentMethod;
 
-        [Required]
-        public Guid UserId { get; set; }
+        public class TransactionsEntity
+        {
+            [Key]
+            public Guid Id { get; set; }
 
-        public Guid? AccountId { get; set; }
+            [Required]
+            public Guid UserId { get; set; }
 
-        public Guid? CreditCardId { get; set; }
+            public Guid? AccountId { get; set; }
 
-        public Guid? DebtId { get; set; }
+            public Guid? CreditCardId { get; set; }
 
-        public Guid? InstallmentId { get; set; }
+            public Guid? DebtId { get; set; }
 
-        [Required]
-        public Guid CategoryId { get; set; }
+            public Guid? InstallmentId { get; set; }
 
-        [Required]
-        [StringLength(255)]
-        public string Description { get; set; }
+            [Required]
+            public Guid CategoryId { get; set; }
 
-        [Required]
-        [Column(TypeName = "decimal(18,2)")]
-        public decimal Amount { get; set; }
+            [Required]
+            [StringLength(255)]
+            public string Description { get; set; }
 
-        [Required]
-        public DateTime TransactionDate { get; set; }
+            [Required]
+            [Column(TypeName = "decimal(18,2)")]
+            public decimal Amount { get; set; }
 
-        [Required]
-        public Guid PaymentMethodId { get; set; }
+            [Required]
+            public DateTime TransactionDate { get; set; }
 
-        [StringLength(50)]
-        public string Status { get; set; }
+            [Required]
+            public Guid PaymentMethodId { get; set; }
 
-        public DateTime CreatedAt { get; set; }
+            [StringLength(50)]
+            public string Status { get; set; }
 
-        // Relacionamentos
+            public DateTime CreatedAt { get; set; }
 
-        public virtual UserEntity User { get; set; }
+            // Relacionamentos
 
-        public virtual AccountEntity Account { get; set; }
+            public virtual UserEntity User { get; set; }
 
-        public virtual CreditCardEntity CreditCard { get; set; }
+            public virtual AccountEntity Account { get; set; }
 
-        public virtual DebtsEntity Debt { get; set; }
+            public virtual CreditCardEntity CreditCard { get; set; }
 
-        public virtual DebtInstallmentsEntity DebtInstallment { get; set; }
+            public virtual DebtsEntity Debt { get; set; }
 
-        public virtual CategoryEntity Category { get; set; }
+            public virtual DebtInstallmentsEntity DebtInstallment { get; set; }
+
+            public virtual CategoryEntity Category { get; set; }
+
+            public virtual PaymentMethodEntity PaymentMethod { get; set; }
+
+        }
     }
-}

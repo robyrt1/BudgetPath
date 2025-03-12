@@ -21,6 +21,7 @@ namespace FinanceApi.Application.Transactions.Queries.Handlers
                 .Include(t => t.Account)
                 .Include(t => t.User)
                 .Include(t => t.CreditCard)
+                .Include(t => t.PaymentMethod)
                 .Include(t => t.Category)
                     .ThenInclude(di => di.Group)
                 .Include(t => t.DebtInstallment)
