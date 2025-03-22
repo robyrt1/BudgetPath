@@ -11,13 +11,11 @@ namespace FinanceApi.Domain.Transactions.Commands.Requests
         public Guid? InstallmentId { get; set; }
         [Required]
         public Guid CategoryId { get; set; }
-        [Required]
         public string Description { get; set; }
         [Required]
         public decimal Amount { get; set; }
         [Required]
         public DateTime TransactionDate { get; set; }
-        [Required]
-        public string PaymentMethod { get; set; }
+        public Guid PaymentMethod { get; set; }
     }
 }

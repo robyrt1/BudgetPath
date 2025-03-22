@@ -1,4 +1,7 @@
-﻿using FinanceApi.Application.Transactions.Queries.Handlers;
+﻿using FinanceApi.Application.Transactions.Commands.Handlers;
+using FinanceApi.Application.Transactions.Queries.Handlers;
+using FinanceApi.Domain.Transactions.Commands.Handlers;
+using FinanceApi.Domain.Transactions.Factory;
 using FinanceApi.Domain.Transactions.Queries.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +11,9 @@ namespace FinanceApi.Infra.DI
     {
         public static IServiceCollection AddTransactionsDepency(IServiceCollection services)
         {
-            services.AddScoped<FindTransactionsQueryHandlerBase, FindTransactionsQueryHandlerImp>();   
+            services.AddScoped<CreateTransactionCommandHandlerBase, CreateTransactionCommandHandlerImp>();
+            services.AddScoped<FindTransactionsQueryHandlerBase, FindTransactionsQueryHandlerImp>();
+            services.AddScoped<TransactionsFactory>();
             return services;
         }
     }

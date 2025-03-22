@@ -2,8 +2,8 @@ IF NOT EXISTS (SELECT name FROM sys.databases WHERE name = 'finance')
 BEGIN
     CREATE DATABASE finance;
 END;
+;
 
-use finance;
 
 SET ANSI_NULLS ON
 GO
@@ -65,7 +65,6 @@ ALTER TABLE [dbo].[Users] CHECK CONSTRAINT [CK_LoginMethod]
 GO
 
 
-
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -88,7 +87,6 @@ ALTER TABLE [dbo].[Group_Category]  WITH CHECK ADD  CONSTRAINT [CHK_GroupCategor
 GO
 ALTER TABLE [dbo].[Group_Category] CHECK CONSTRAINT [CHK_GroupCategory_Type]
 GO
-
 
 
 SET ANSI_NULLS ON
@@ -129,69 +127,240 @@ ALTER TABLE [dbo].[Categories] CHECK CONSTRAINT [USER_CATEGORY_FK]
 GO
 
 
-use finance;
-go
-insert into Group_Category (Id,[Descript]) values (newId(),'INVESTIMENTO');
-go
-insert into Group_Category (Id,[Descript]) values (newId(),'RECEITA');
-go 
-insert into Group_Category (Id,[Descript]) values (newId(),'DESPESA');
-go
 
-
-use finance
-go
-use finance
-go
-create table Account (
-    Id uniqueidentifier not null PRIMARY key DEFAULT NEWID(),
-    UserID uniqueidentifier not null,
-    Name NVARCHAR(255) not null,
-    Balance Decimal(18,2) default 0,
-    Type NVARCHAR(255) CHECK(Type in ('Corrente','Poupança')),
-    CreateAt DateTime default GETDATE(),
-    FOREIGN KEY (UserID) REFERENCES Users(Id)
-);
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PaymentMethod](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Description] [nvarchar](255) NOT NULL,
+	[DescriptionLower]  AS (lower([Description])) PERSISTED,
+	[UserId] [uniqueidentifier] NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[PaymentMethod] ADD PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+SET ARITHABORT ON
+SET CONCAT_NULL_YIELDS_NULL ON
+SET QUOTED_IDENTIFIER ON
+SET ANSI_NULLS ON
+SET ANSI_PADDING ON
+SET ANSI_WARNINGS ON
+SET NUMERIC_ROUNDABORT OFF
+GO
+CREATE NONCLUSTERED INDEX [idx_payment_method_desc_lower] ON [dbo].[PaymentMethod]
+(
+	[DescriptionLower] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[PaymentMethod] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[PaymentMethod]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([Id])
+ON DELETE CASCADE
 GO
 
-use finance
-go
-create table CreditCard (
-    Id uniqueidentifier not null PRIMARY key DEFAULT NEWID(),
-    AccountId uniqueidentifier not null,
-    Name NVARCHAR(255) not null,
-    Limit Decimal(18,2) default 0,
-    Maturity int not null CHECK (Maturity between 1 and 31),
-    Closing int not null CHECK (Closing between 1 and 31),
-    FOREIGN key (AccountId) REFERENCES Account(Id)
-);
+
+insert into PaymentMethod(Description) values('Pix');
+insert into PaymentMethod(Description) values('Debito em Conta');
+insert into PaymentMethod(Description) values('Transferencia');
+insert into PaymentMethod(Description) values('Crédito');
+insert into PaymentMethod(Description) values('Boleto');
+insert into PaymentMethod(Description) values('Dividendos em Conta');
 
 
-use finance
-go
-CREATE TABLE Debts (
-    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    UserId UNIQUEIDENTIFIER NOT NULL,
-    AccountId UNIQUEIDENTIFIER NULL,
-    CreditCardId UNIQUEIDENTIFIER NULL,
-    CategoryId UNIQUEIDENTIFIER NOT NULL,
-    Description NVARCHAR(255) NOT NULL,
-    TotalAmount DECIMAL(18,2) NOT NULL,
-    Installments INT DEFAULT 1 CHECK (Installments > 0),
-    PaidAmount DECIMAL(18,2) DEFAULT 0,
-    RemainingAmount DECIMAL(18,2) DEFAULT 0 ,
-    DueDate DATE NOT NULL,
-    Status NVARCHAR(50) CHECK (Status IN ('Pendente', 'Pago', 'Atrasado', 'Parcialmente Pago')) DEFAULT 'Pendente',
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (UserId) REFERENCES Users(Id),
-    FOREIGN KEY (AccountId) REFERENCES Account(Id),
-    FOREIGN KEY (CreditCardId) REFERENCES CreditCard(Id),
-    FOREIGN KEY (CategoryId) REFERENCES Categories(Id)
-);
 
-go
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Account](
+	[Id] [uniqueidentifier] NOT NULL,
+	[UserId] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](255) NOT NULL,
+	[Balance] [decimal](18, 2) NULL,
+	[Type] [nvarchar](255) NULL,
+	[CreateAt] [datetime] NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Account] ADD PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Account] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[Account] ADD  DEFAULT ((0)) FOR [Balance]
+GO
+ALTER TABLE [dbo].[Account] ADD  DEFAULT (getdate()) FOR [CreateAt]
+GO
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[Account]  WITH CHECK ADD CHECK  (([Type]='Poupança' OR [Type]='Corrente'))
+GO
 
-CREATE TRIGGER UpdateRemainingAmount ON Debts
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CreditCard](
+	[Id] [uniqueidentifier] NOT NULL,
+	[AccountId] [uniqueidentifier] NOT NULL,
+	[Name] [nvarchar](255) NOT NULL,
+	[Limit] [decimal](18, 2) NULL,
+	[Maturity] [int] NOT NULL,
+	[Closing] [int] NOT NULL,
+	[AvailableBalance] [decimal](18, 2) NOT NULL,
+	[InvoiceAmount] [decimal](18, 2) NOT NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[CreditCard] ADD PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[CreditCard] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[CreditCard] ADD  DEFAULT ((0)) FOR [Limit]
+GO
+ALTER TABLE [dbo].[CreditCard] ADD  DEFAULT ((0)) FOR [AvailableBalance]
+GO
+ALTER TABLE [dbo].[CreditCard] ADD  DEFAULT ((0)) FOR [InvoiceAmount]
+GO
+ALTER TABLE [dbo].[CreditCard]  WITH CHECK ADD FOREIGN KEY([AccountId])
+REFERENCES [dbo].[Account] ([Id])
+GO
+ALTER TABLE [dbo].[CreditCard]  WITH CHECK ADD CHECK  (([Closing]>=(1) AND [Closing]<=(31)))
+GO
+ALTER TABLE [dbo].[CreditCard]  WITH CHECK ADD CHECK  (([Maturity]>=(1) AND [Maturity]<=(31)))
+GO
+
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Debts](
+	[Id] [uniqueidentifier] NOT NULL,
+	[UserId] [uniqueidentifier] NOT NULL,
+	[AccountId] [uniqueidentifier] NULL,
+	[CreditCardId] [uniqueidentifier] NULL,
+	[CategoryId] [uniqueidentifier] NOT NULL,
+	[Description] [nvarchar](255) NOT NULL,
+	[TotalAmount] [decimal](18, 2) NOT NULL,
+	[Installments] [int] NULL,
+	[PaidAmount] [decimal](18, 2) NULL,
+	[RemainingAmount] [decimal](18, 2) NULL,
+	[DueDate] [date] NOT NULL,
+	[Status] [nvarchar](50) NULL,
+	[CreatedAt] [datetime] NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Debts] ADD PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Debts] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[Debts] ADD  DEFAULT ((1)) FOR [Installments]
+GO
+ALTER TABLE [dbo].[Debts] ADD  DEFAULT ((0)) FOR [PaidAmount]
+GO
+ALTER TABLE [dbo].[Debts] ADD  DEFAULT ((0)) FOR [RemainingAmount]
+GO
+ALTER TABLE [dbo].[Debts] ADD  DEFAULT ('Pendente') FOR [Status]
+GO
+ALTER TABLE [dbo].[Debts] ADD  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+ALTER TABLE [dbo].[Debts]  WITH CHECK ADD FOREIGN KEY([AccountId])
+REFERENCES [dbo].[Account] ([Id])
+GO
+ALTER TABLE [dbo].[Debts]  WITH CHECK ADD FOREIGN KEY([CategoryId])
+REFERENCES [dbo].[Categories] ([Id])
+GO
+ALTER TABLE [dbo].[Debts]  WITH CHECK ADD FOREIGN KEY([CreditCardId])
+REFERENCES [dbo].[CreditCard] ([Id])
+GO
+ALTER TABLE [dbo].[Debts]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[Debts]  WITH CHECK ADD CHECK  (([Installments]>(0)))
+GO
+ALTER TABLE [dbo].[Debts]  WITH CHECK ADD CHECK  (([Status]='Parcialmente Pago' OR [Status]='Atrasado' OR [Status]='Pago' OR [Status]='Pendente'))
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[InsertDebtInstallments]
+ON [dbo].[Debts]
+AFTER INSERT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    
+    DECLARE @DebtId UNIQUEIDENTIFIER;
+    DECLARE @Installments INT;
+    DECLARE @TotalAmount DECIMAL(18,2);
+    DECLARE @DueDate DATE;
+    DECLARE @InstallmentNumber INT;
+    DECLARE @Year INT;
+    DECLARE @Month INT;
+    
+    DECLARE debt_cursor CURSOR FOR
+    SELECT Id, Installments, TotalAmount, DueDate FROM inserted;
+    
+    OPEN debt_cursor;
+    FETCH NEXT FROM debt_cursor INTO @DebtId, @Installments, @TotalAmount, @DueDate;
+    
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        SET @InstallmentNumber = 1;
+        WHILE @InstallmentNumber <= @Installments
+        BEGIN
+            -- Calcular a data de vencimento da parcela
+            SET @Year = YEAR(DATEADD(MONTH, @InstallmentNumber - 1, @DueDate));
+            SET @Month = MONTH(DATEADD(MONTH, @InstallmentNumber - 1, @DueDate));
+            
+            -- Inserir a parcela
+            INSERT INTO DebtInstallments (DebtId, InstallmentNumber, DueDate, Amount, PaidAmount, Status)
+            VALUES (
+                @DebtId,
+                @InstallmentNumber,
+                DATEFROMPARTS(@Year, @Month, 18),  -- Calcula a data de vencimento corretamente, incluindo mudança de ano
+                @TotalAmount / @Installments,
+                0,
+                'Pendente'
+            );
+            
+            -- Avançar para a próxima parcela
+            SET @InstallmentNumber = @InstallmentNumber + 1;
+        END;
+        
+        FETCH NEXT FROM debt_cursor INTO @DebtId, @Installments, @TotalAmount, @DueDate;
+    END;
+    
+    CLOSE debt_cursor;
+    DEALLOCATE debt_cursor;
+END;
+GO
+ALTER TABLE [dbo].[Debts] ENABLE TRIGGER [InsertDebtInstallments]
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[UpdateRemainingAmount]
+ON [dbo].[Debts]
 AFTER INSERT, UPDATE
 AS
 BEGIN
@@ -202,55 +371,261 @@ BEGIN
 END;
 
 
-CREATE TABLE DebtInstallments (
-    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    DebtId UNIQUEIDENTIFIER NOT NULL,
-    InstallmentNumber INT NOT NULL CHECK (InstallmentNumber > 0),
-    DueDate DATE NOT NULL,
-    Amount DECIMAL(18,2) NOT NULL,
-    PaidAmount DECIMAL(18,2) DEFAULT 0,
-    Status NVARCHAR(50) CHECK (Status IN ('Pendente', 'Pago', 'Atrasado', 'Parcialmente Pago')) DEFAULT 'Pendente',
-    FOREIGN KEY (DebtId) REFERENCES Debts(Id) ON DELETE CASCADE
-);
+DROP TRIGGER InsertDebtInstallments;
 
-CREATE TABLE Transactions (
-    Id UNIQUEIDENTIFIER PRIMARY KEY DEFAULT NEWID(),
-    UserId UNIQUEIDENTIFIER NOT NULL,
-    AccountId UNIQUEIDENTIFIER NULL,
-    CreditCardId UNIQUEIDENTIFIER NULL,
-    DebtId UNIQUEIDENTIFIER NULL, -- Referência para uma dívida (se aplicável)
-    InstallmentId UNIQUEIDENTIFIER NULL, -- Referência para uma parcela (se aplicável)
-    CategoryId UNIQUEIDENTIFIER NOT NULL,
-    Description NVARCHAR(255) NOT NULL,
-    Amount DECIMAL(18,2) NOT NULL, -- Valor pago na transação
-    TransactionDate DATE NOT NULL DEFAULT GETDATE(), -- Data da transação
-    PaymentMethod NVARCHAR(50) CHECK (PaymentMethod IN ('Dinheiro', 'Cartão', 'Boleto', 'PIX', 'Transferência')) NOT NULL,
-    Status NVARCHAR(50) CHECK (Status IN ('Confirmado', 'Pendente', 'Cancelado')) DEFAULT 'Confirmado',
-    CreatedAt DATETIME DEFAULT GETDATE(),
-    FOREIGN KEY (UserId) REFERENCES Users(Id),
-    FOREIGN KEY (AccountId) REFERENCES Account(Id),
-    FOREIGN KEY (CreditCardId) REFERENCES CreditCard(Id),
-    FOREIGN KEY (DebtId) REFERENCES Debts(Id) ON DELETE CASCADE,
-    FOREIGN KEY (InstallmentId) REFERENCES DebtInstallments(Id) ON DELETE CASCADE,
-    FOREIGN KEY (CategoryId) REFERENCES Categories(Id)
-);
-go
+SELECT name 
+FROM sys.triggers 
+WHERE name = 'InsertDebtInstallments';
+
+GO
+ALTER TABLE [dbo].[Debts] ENABLE TRIGGER [UpdateRemainingAmount]
+GO
 
 
-use finance;
-go
-INSERT INTO Categories (Id, Descript, GroupId, ParentId) 
-VALUES 
-(NEWID(), 'Supermercado', (SELECT Id FROM Group_Category WHERE Descript = 'DESPESA'), 
-    (SELECT Id FROM Categories WHERE Descript = 'Alimentação')),
 
-(NEWID(), 'Restaurantes', (SELECT Id FROM Group_Category WHERE Descript = 'DESPESA'), 
-    (SELECT Id FROM Categories WHERE Descript = 'Alimentação')),
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[DebtInstallments](
+	[Id] [uniqueidentifier] NOT NULL,
+	[DebtId] [uniqueidentifier] NOT NULL,
+	[InstallmentNumber] [int] NOT NULL,
+	[DueDate] [date] NOT NULL,
+	[Amount] [decimal](18, 2) NOT NULL,
+	[PaidAmount] [decimal](18, 2) NULL,
+	[Status] [nvarchar](50) NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[DebtInstallments] ADD PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[DebtInstallments] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[DebtInstallments] ADD  DEFAULT ((0)) FOR [PaidAmount]
+GO
+ALTER TABLE [dbo].[DebtInstallments] ADD  DEFAULT ('Pendente') FOR [Status]
+GO
+ALTER TABLE [dbo].[DebtInstallments]  WITH CHECK ADD FOREIGN KEY([DebtId])
+REFERENCES [dbo].[Debts] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[DebtInstallments]  WITH CHECK ADD CHECK  (([InstallmentNumber]>(0)))
+GO
+ALTER TABLE [dbo].[DebtInstallments]  WITH CHECK ADD CHECK  (([Status]='Parcialmente Pago' OR [Status]='Atrasado' OR [Status]='Pago' OR [Status]='Pendente'))
+GO
 
-(NEWID(), 'FIIs', (SELECT Id FROM Group_Category WHERE Descript = 'INVESTIMENTO'), 
-    (SELECT Id FROM Categories WHERE Descript = 'Investimentos')),
 
-(NEWID(), 'Ações', (SELECT Id FROM Group_Category WHERE Descript = 'INVESTIMENTO'), 
-    (SELECT Id FROM Categories WHERE Descript = 'Investimentos'));
-go
 
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PendingReimbursements](
+	[Id] [uniqueidentifier] NOT NULL,
+	[UserId] [uniqueidentifier] NOT NULL,
+	[Withdrawal_date] [datetime] NOT NULL,
+	[Withdrawal_amount] [decimal](10, 2) NOT NULL,
+	[Expected_repayment_date] [date] NOT NULL,
+	[Status] [varchar](20) NOT NULL,
+	[Created_at] [datetime] NOT NULL,
+	[Updated_at] [datetime] NULL,
+	[AccountId] [uniqueidentifier] NOT NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[PendingReimbursements] ADD PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[PendingReimbursements] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[PendingReimbursements] ADD  DEFAULT (getdate()) FOR [Withdrawal_date]
+GO
+ALTER TABLE [dbo].[PendingReimbursements] ADD  DEFAULT (getdate()) FOR [Created_at]
+GO
+ALTER TABLE [dbo].[PendingReimbursements]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[PendingReimbursements]  WITH CHECK ADD  CONSTRAINT [FK_PendingReimbursements_Account] FOREIGN KEY([AccountId])
+REFERENCES [dbo].[Account] ([Id])
+GO
+ALTER TABLE [dbo].[PendingReimbursements] CHECK CONSTRAINT [FK_PendingReimbursements_Account]
+GO
+ALTER TABLE [dbo].[PendingReimbursements]  WITH CHECK ADD CHECK  (([status]='paid' OR [status]='pending'))
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+create function [dbo].[getDescriptionGroupByCategory](@CategoryId UNIQUEIDENTIFIER)
+RETURNS NVARCHAR(255)
+WITH EXECUTE AS CALLER
+AS 
+BEGIN
+    DECLARE @Description NVARCHAR(255);
+
+    select @Description = Descript from Group_Category
+    where Id = (
+        select GroupId from Categories where Id = @CategoryId
+    );
+
+    return @Description;
+END;
+GO
+
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Transactions](
+	[Id] [uniqueidentifier] NOT NULL,
+	[UserId] [uniqueidentifier] NOT NULL,
+	[AccountId] [uniqueidentifier] NULL,
+	[CreditCardId] [uniqueidentifier] NULL,
+	[DebtId] [uniqueidentifier] NULL,
+	[InstallmentId] [uniqueidentifier] NULL,
+	[CategoryId] [uniqueidentifier] NOT NULL,
+	[Description] [nvarchar](255) NOT NULL,
+	[Amount] [decimal](18, 2) NOT NULL,
+	[TransactionDate] [date] NOT NULL,
+	[PaymentMethodId] [uniqueidentifier] NOT NULL,
+	[Status] [nvarchar](50) NULL,
+	[CreatedAt] [datetime] NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Transactions] ADD PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Transactions] ADD  DEFAULT (newid()) FOR [Id]
+GO
+ALTER TABLE [dbo].[Transactions] ADD  DEFAULT (getdate()) FOR [TransactionDate]
+GO
+ALTER TABLE [dbo].[Transactions] ADD  DEFAULT ('Confirmado') FOR [Status]
+GO
+ALTER TABLE [dbo].[Transactions] ADD  DEFAULT (getdate()) FOR [CreatedAt]
+GO
+ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD FOREIGN KEY([AccountId])
+REFERENCES [dbo].[Account] ([Id])
+GO
+ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD FOREIGN KEY([CategoryId])
+REFERENCES [dbo].[Categories] ([Id])
+GO
+ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD FOREIGN KEY([CreditCardId])
+REFERENCES [dbo].[CreditCard] ([Id])
+GO
+ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD FOREIGN KEY([DebtId])
+REFERENCES [dbo].[Debts] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD FOREIGN KEY([InstallmentId])
+REFERENCES [dbo].[DebtInstallments] ([Id])
+GO
+ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD FOREIGN KEY([PaymentMethodId])
+REFERENCES [dbo].[PaymentMethod] ([Id])
+ON DELETE CASCADE
+GO
+ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD FOREIGN KEY([UserId])
+REFERENCES [dbo].[Users] ([Id])
+GO
+ALTER TABLE [dbo].[Transactions]  WITH CHECK ADD CHECK  (([Status]='Cancelado' OR [Status]='Pendente' OR [Status]='Confirmado'))
+GO
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TRIGGER [dbo].[TransactionsAfter] 
+ON [dbo].[Transactions]
+AFTER INSERT 
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    DECLARE @AccountId UNIQUEIDENTIFIER;
+    DECLARE @DebtId UNIQUEIDENTIFIER;
+    DECLARE @CategoryId UNIQUEIDENTIFIER;
+    DECLARE @UserId UNIQUEIDENTIFIER;
+    DECLARE @CreditCardId UNIQUEIDENTIFIER;
+    DECLARE @Amount DECIMAL(18,2);
+    DECLARE @Status NVARCHAR(50);
+    DECLARE @Balance DECIMAL(18,2);
+    DECLARE @AvailableBalance DECIMAL(18,2);
+    DECLARE @InvoiceAmount DECIMAL(18,2);
+    DECLARE @DescriptionGroup NVARCHAR(255);
+
+    -- Declaração do cursor
+    DECLARE insert_cursor CURSOR FOR
+    SELECT DebtId, AccountId, CategoryId, Amount, [Status], UserId, CreditCardId 
+    FROM inserted;
+
+    OPEN insert_cursor;
+
+    FETCH NEXT FROM insert_cursor 
+    INTO @DebtId, @AccountId, @CategoryId, @Amount, @Status, @UserId, @CreditCardId;
+
+    WHILE @@FETCH_STATUS = 0
+    BEGIN
+        -- Obtendo a descrição do grupo da categoria
+        SELECT @DescriptionGroup = dbo.getDescriptionGroupByCategory(@CategoryId);
+
+        IF @Status = 'Confirmado'
+        BEGIN
+            -- Se for RECEITA, garantir que será SOMADO ao saldo da conta
+            IF @DescriptionGroup = 'RECEITA' AND @AccountId IS NOT NULL
+            BEGIN
+                SELECT @Balance = Balance FROM dbo.Account WHERE Id = @AccountId;
+                UPDATE dbo.Account 
+                SET Balance = @Balance + ABS(@Amount)  -- Garante soma mesmo que @Amount seja negativo
+                WHERE Id = @AccountId;
+            END
+            -- Se for DESPESA, garantir que será SUBTRAÍDO do saldo da conta
+            ELSE IF @DescriptionGroup = 'DESPESA' AND @AccountId IS NOT NULL
+            BEGIN
+                SELECT @Balance = Balance FROM dbo.Account WHERE Id = @AccountId;
+                UPDATE dbo.Account 
+                SET Balance = @Balance - ABS(@Amount)  -- Garante subtração mesmo que @Amount seja positivo
+                WHERE Id = @AccountId;
+            END
+            -- Se for transação no cartão de crédito
+            ELSE IF @CreditCardId IS NOT NULL and  @AccountId IS  NULL
+            BEGIN
+                SELECT @AvailableBalance = AvailableBalance, @InvoiceAmount = InvoiceAmount 
+                FROM dbo.CreditCard 
+                WHERE Id = @CreditCardId;
+
+                -- Se for uma despesa no cartão (valor negativo)
+                IF @DescriptionGroup = 'DESPESA'
+                BEGIN
+                    UPDATE dbo.CreditCard 
+                    SET AvailableBalance = @AvailableBalance - ABS(@Amount),  -- Reduz saldo disponível
+                        InvoiceAmount = @InvoiceAmount + ABS(@Amount)  -- Aumenta a fatura
+                    WHERE Id = @CreditCardId;
+                END
+                -- Se for uma receita no cartão (valor positivo)
+                ELSE IF @DescriptionGroup = 'RECEITA'
+                BEGIN
+                    UPDATE dbo.CreditCard 
+                    SET AvailableBalance = @AvailableBalance + ABS(@Amount)  -- Aumenta saldo disponível
+                    WHERE Id = @CreditCardId;
+                END
+            END
+        END
+
+        -- Próximo registro do cursor
+        FETCH NEXT FROM insert_cursor 
+        INTO @DebtId, @AccountId, @CategoryId, @Amount, @Status, @UserId, @CreditCardId;
+    END;
+
+    -- Fecha e desaloca o cursor
+    CLOSE insert_cursor;
+    DEALLOCATE insert_cursor;
+END;
+GO
+ALTER TABLE [dbo].[Transactions] ENABLE TRIGGER [TransactionsAfter]
+GO
