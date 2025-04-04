@@ -21,7 +21,7 @@ namespace FinanceApi.Application.Transactions.Commands.Handlers
             _transactionsWriteRepository = transactionsWriteRepository;
             _transactionsFactory = transactionsFactory;        }
 
-        public async Task<ResponseWrapperBase<TransactionsEntity>> Handle(CreateTransactionRequest command)
+        public override async Task<ResponseWrapperBase<TransactionsEntity>> Handle(CreateTransactionRequest command)
         {
 
                 var trasanction = _transactionsFactory.prepareForAppend(command);

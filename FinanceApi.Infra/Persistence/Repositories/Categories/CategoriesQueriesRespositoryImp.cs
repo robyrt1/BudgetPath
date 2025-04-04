@@ -51,6 +51,7 @@ namespace FinanceApi.Infra.Persistence.Repositories.Categories
         {
             var categories = _context.Categories
                 .Include(c => c.SubCategories)
+                .Include(c => c.Group)
                 .AsNoTracking();
 
             return categories;

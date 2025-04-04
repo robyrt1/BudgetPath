@@ -2,7 +2,7 @@
 
 namespace FinanceApi.Domain.Transactions.Factory
 {
-    public sealed class TransactionsFactory
+    public  class TransactionsFactory
     {
         public TransactionsFactory()
         {
@@ -21,7 +21,8 @@ namespace FinanceApi.Domain.Transactions.Factory
                 PaymentMethodId = request.PaymentMethod,
                 InstallmentId = request.InstallmentId,
                 UserId = request.UserId,
-                TransactionDate = new DateTime(),
+                TransactionDate = request.TransactionDate,
+                CreatedAt = DateTime.UtcNow,
                 Status = "confirmado"
             };
         }

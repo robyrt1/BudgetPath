@@ -39,6 +39,7 @@
             public decimal Amount { get; set; }
 
             [Required]
+            [Column(TypeName = "date")]
             public DateTime TransactionDate { get; set; }
 
             [Required]

@@ -12,8 +12,8 @@ namespace FinanceApi.Infra.DI
         public static IServiceCollection AddTransactionsDepency(IServiceCollection services)
         {
             services.AddScoped<CreateTransactionCommandHandlerBase, CreateTransactionCommandHandlerImp>();
-            services.AddScoped<FindTransactionsQueryHandlerBase, FindTransactionsQueryHandlerImp>();
             services.AddScoped<TransactionsFactory>();
+            services.AddScoped<FindTransactionsQueryHandlerBase, FindTransactionsQueryHandlerImp>();
             return services;
         }
     }

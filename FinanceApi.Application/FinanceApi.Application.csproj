@@ -14,8 +14,4 @@
     <ProjectReference Include="..\FinanceApi.Domain\FinanceApi.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Transactions\Commands\Handlers\" />
-  </ItemGroup>
-
 </Project>
