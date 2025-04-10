@@ -1,12 +1,4 @@
-﻿using FinanceApi.Domain.Users;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace FinanceApi.Domain.Accounts.Queries.Responses
 {
     public class GetAccountQueryHandlerResponse
@@ -19,7 +11,9 @@ namespace FinanceApi.Domain.Accounts.Queries.Responses
 
         public DateTime CreatedAt { get; set; }
 
-        public UserMapper? User { get; set; } 
+        public UserMapper? User { get; set; }
+
+        public List<CreditCardMapper> CreditCards { get; set; }
     }
 
     public class UserMapper

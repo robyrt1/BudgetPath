@@ -1,4 +1,5 @@
 ﻿using FinanceApi.Application.Transactions.Commands.Handlers;
+using FinanceApi.Application.Transactions.Factory;
 using FinanceApi.Application.Transactions.Queries.Handlers;
 using FinanceApi.Domain.Transactions.Commands.Handlers;
 using FinanceApi.Domain.Transactions.Factory;
@@ -14,6 +15,10 @@ namespace FinanceApi.Infra.DI
             services.AddScoped<CreateTransactionCommandHandlerBase, CreateTransactionCommandHandlerImp>();
             services.AddScoped<TransactionsFactory>();
             services.AddScoped<FindTransactionsQueryHandlerBase, FindTransactionsQueryHandlerImp>();
+            services.AddScoped<GetExpensesByMonthHandlerImp>();
+            services.AddScoped<GetExpensesByWeekHandlerImp>();
+            services.AddScoped<GetExpensesByYearHandlerImp>();
+            services.AddScoped<AggregatedExpensesHandlerFactory>();
             return services;
         }
     }

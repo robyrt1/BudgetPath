@@ -1,4 +1,5 @@
-﻿using FinanceApi.Domain.Users;
+﻿using FinanceApi.Domain.CreditCards;
+using FinanceApi.Domain.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -22,5 +23,8 @@ namespace FinanceApi.Domain.Accounts
 
         [ForeignKey("UserId")]
         public virtual UserEntity User { get; set; }
+
+        public virtual List<CreditCardEntity> CreditCard { get; set; }
+
     }
 }

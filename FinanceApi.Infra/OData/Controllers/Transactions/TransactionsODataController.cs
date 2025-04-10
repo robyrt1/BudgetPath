@@ -12,6 +12,8 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using FinanceApi.Domain.Transactions.Commands.Handlers;
 using FinanceApi.Domain.Transactions.Commands.Requests;
+using FinanceApi.Domain.Transactions.Queries.Types;
+using FinanceApi.Application.Transactions.Factory;
 
 namespace FinanceApi.Infra.OData.Controllers.Transactions
 {
@@ -46,6 +48,21 @@ namespace FinanceApi.Infra.OData.Controllers.Transactions
                 var inner = ex.InnerException?.Message ?? ex.Message;
                 return ResponseHelper.CreateResponse(ex.Message, StatusCodes.Status500InternalServerError);
 
+            }
+        }
+
+        [HttpGet("aggregated")]
+        public async Task<IActionResult> GetAggregatedExpenses([FromServices] AggregatedExpensesHandlerFactory _factory, Guid userId, GroupByOption groupBy)
+        {
+            try
+            {
+                var handler = _factory.GetHandler(groupBy);
+                var result = await handler.HandleAsync(userId);
+                return Ok(result);
+            }
+            catch (ArgumentException ex)
+            {
+                return BadRequest(new { error = ex.Message });
             }
         }
 

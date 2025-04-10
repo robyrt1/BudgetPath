@@ -20,7 +20,7 @@ namespace FinanceApi.Application.Accounts.Queries.Handlers
 
         public override async Task<IEnumerable<GetAccountQueryHandlerResponse>> Handle(GetAccountByUserQueryHandlerRequest command)
         {
-            var accounts = await _accountQueriesRepositoryImp.Find(a => a.UserId == command.UserId).ToListAsync();
+            var accounts = await _accountQueriesRepositoryImp.Find(a => a.UserId == command.UserId).Include(a => a.CreditCard).ToListAsync();
 
             return _getAccountByUserMapperImp.To(accounts);
         }

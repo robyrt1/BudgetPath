@@ -1,12 +1,6 @@
 ﻿using FinanceApi.Domain.Accounts;
 using FinanceApi.Domain.Accounts.Port;
 using FinanceApi.Domain.Accounts.Queries.Responses;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 namespace FinanceApi.Application.Accounts.Mappers
 {
     public class GetAccountMapper : IGetAccountMapperBase
@@ -26,7 +20,13 @@ namespace FinanceApi.Application.Accounts.Mappers
                         Name = m.User.Name,
                         CreatedAt = m.User.CreatedAt,
                         Email = m.User.Email
-                    }
+                    },
+                    CreditCards = m.CreditCard?.Select(cc => new CreditCardMapper
+                    {
+                        Id = cc.Id,
+                        Name = cc.Name,
+                        Limit = cc.Limit ?? 0,
+                    }).ToList()
                 });
         }
     }

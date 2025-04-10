@@ -74,7 +74,7 @@
 
             modelBuilder.Entity<CreditCardEntity>()
                 .HasOne(cc => cc.Account)
-                .WithMany()
+                .WithMany(a => a.CreditCard)
                 .HasForeignKey(cc => cc.AccountId);
 
             modelBuilder.Entity<DebtInstallmentsEntity>()

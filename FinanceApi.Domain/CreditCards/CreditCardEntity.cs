@@ -22,6 +22,10 @@ namespace FinanceApi.Domain.CreditCards
         [Required]
         public int Closing { get; set; }
 
+        public decimal AvailableBalance { get; set; }
+
+        public decimal InvoiceAmount { get; set; }
+
         [ForeignKey("AccountId")]
         public virtual AccountEntity Account { get; set; }
 

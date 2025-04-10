@@ -1,6 +1,7 @@
 ﻿using FinanceApi.Domain.Accounts;
 using FinanceApi.Domain.Accounts.Queries.Handler;
 using FinanceApi.Domain.Shared.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceApi.Application.Accounts.Queries.Handlers
 {
@@ -15,8 +16,9 @@ namespace FinanceApi.Application.Accounts.Queries.Handlers
 
         public override  IQueryable<AccountEntity> Handle()
         {
-            var accounts =  _accountQueriesRepositoryImp.GetAll();
-
+            var accounts = _accountQueriesRepositoryImp.GetAll()
+                .AsNoTracking()
+                .Include(a => a.CreditCard);
             return accounts;
         }
 
