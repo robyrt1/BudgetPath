@@ -36,6 +36,7 @@ CreditCardIdentify.AddCreditCartDepency(builder.Services);
     TransactionsIdentify.AddTransactionsDepency(builder.Services);
 ODataIdentify.AddOData(builder.Services);
 PaymentMethodIdentify.AddPaymentMethodDepency(builder.Services);
+DebtsIdentify.AddDebtsDepency(builder.Services);
 
 var app = builder.Build();
 

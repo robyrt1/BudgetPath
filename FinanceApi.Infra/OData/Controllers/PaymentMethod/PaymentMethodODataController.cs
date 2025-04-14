@@ -17,7 +17,7 @@
     [ApiController]
     public class PaymentMethodODataController : ODataController
     {
-                [HttpGet]
+        [HttpGet]
         [EnableQuery]
         public async Task<IActionResult> GetCreditOdata([FromServices] FindPaymentMethodQueryHandlerBase findPaymentMethodQueryHandler, ODataQueryOptions<AccountEntity> queryOptions)
         {

@@ -58,7 +58,7 @@ namespace FinanceApi.Application.Transactions.Queries.Handlers
                         Total = g.Sum(x => x.Amount)
                     };
                 })
-                .ToList();
+                .ToList();  
 
             return grouped;
         }

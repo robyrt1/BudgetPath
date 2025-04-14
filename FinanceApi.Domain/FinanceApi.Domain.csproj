@@ -11,6 +11,9 @@
     <Folder Include="Categories\Commands\Responses\" />
     <Folder Include="Categories\Commands\Requests\" />
     <Folder Include="CreditCards\Queries\Responses\" />
+    <Folder Include="Debts\Commands\" />
+    <Folder Include="Debts\Port\" />
+    <Folder Include="Debts\Queries\Responses\" />
     <Folder Include="Shared\Http\" />
     <Folder Include="Shared\Wrappers\" />
     <Folder Include="Transactions\Commands\Rsponses\" />

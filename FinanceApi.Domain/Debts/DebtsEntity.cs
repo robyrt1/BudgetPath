@@ -53,17 +53,18 @@
 
         public DateTime CreatedAt { get; set; }
 
-        // Relacionamentos
-
+        [ForeignKey("UserId")]
         public virtual UserEntity User { get; set; }
 
+        [ForeignKey("AccountId")]
         public virtual AccountEntity Account { get; set; }
 
+        [ForeignKey("CreditCardId")]
         public virtual CreditCardEntity CreditCard { get; set; }
 
+        [ForeignKey("CategoryId")]
         public virtual CategoryEntity Category { get; set; }
 
-        // Relacionamento com DebtInstallments
 
         public virtual ICollection<DebtInstallmentsEntity> DebtInstallments { get; set; }
     }

@@ -77,6 +77,18 @@
                 .WithMany(a => a.CreditCard)
                 .HasForeignKey(cc => cc.AccountId);
 
+            modelBuilder.Entity<CreditCardEntity>()
+                .Property(c => c.AvailableBalance)
+                .HasPrecision(18, 2);
+
+            modelBuilder.Entity<CreditCardEntity>()
+                .Property(c => c.InvoiceAmount)
+                .HasPrecision(18, 2);
+            
+            modelBuilder.Entity<CreditCardEntity>()
+                .Property(c => c.Limit)
+                .HasPrecision(18, 2);
+
             modelBuilder.Entity<DebtInstallmentsEntity>()
                 .HasOne(di => di.Debt)
                 .WithMany(d => d.DebtInstallments)
