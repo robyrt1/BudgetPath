@@ -31,13 +31,21 @@ namespace FinanceApi.Infra.OData.Controllers.Transactions
             {
                 IQueryable<TransactionsEntity> transactions = findTransactionsQueryHandler.Handle();
                 int totalRecords = await transactions.CountAsync();
-                int skip = queryOptions.Skip?.Value ?? 0;
-                int top = queryOptions.Top?.Value ?? totalRecords;
+                bool isPaging = queryOptions.Skip != null || queryOptions.Top != null;
+
+                int skip = isPaging ? queryOptions.Skip?.Value ?? 0 : 0;
+                int top = isPaging ? queryOptions.Top?.Value ?? totalRecords : totalRecords;
+
                 int currentPage = (skip / (top == 0 ? 1 : top)) + 1;
 
                 var filter = new PaginationFilter(skip, top);
 
-                var pagedData = await transactions.Skip(filter.Skip).Take(filter.Top).ToListAsync();
+                var query = transactions.OrderByDescending(t => t.TransactionDate);
+
+                var pagedData = isPaging
+                    ? await query.Skip(skip).Take(top).ToListAsync()
+                    : await query.ToListAsync();
+
 
                 var response = PaginationHelper.CreatePagedResponse(pagedData, filter, totalRecords);
 

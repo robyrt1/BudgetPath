@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Categories\Commands\Handlers\" />
     <Folder Include="Categories\Commands\Responses\" />
-    <Folder Include="Categories\Commands\Requests\" />
     <Folder Include="CreditCards\Queries\Responses\" />
     <Folder Include="Debts\Commands\" />
     <Folder Include="Debts\Port\" />

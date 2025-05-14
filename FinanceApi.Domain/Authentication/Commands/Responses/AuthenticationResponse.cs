@@ -10,6 +10,7 @@ namespace FinanceApi.Domain.Authentication.Commands.Responses
     {
         public string Name { get; set; }
         public string Token { get; set; }
+        public string? Email { get; set; }
         public Guid UserId { get; set; }
     }
 }

@@ -25,7 +25,8 @@ namespace FinanceApi.Application.Debts.Queries.Handlers
                 .AsNoTracking()
                 .Include(c => c.CreditCard)
                 .Include(a => a.Account)
-                .Include(c => c.Category);
+                .Include(c => c.Category)
+                     .ThenInclude(di => di.Group);
         }
 
         public override Task<IQueryable<DebtsEntity>> HandleAsync()

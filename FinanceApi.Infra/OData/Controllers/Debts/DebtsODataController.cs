@@ -25,7 +25,7 @@ namespace FinanceApi.Infra.OData.Controllers.Debts
     public class DebtsODataController : ODataController
     {
         [HttpGet]
-        [EnableQuery]
+        [EnableQuery(MaxExpansionDepth = 3)]
         public async Task<IActionResult> GetCreditOdata([FromServices] FindDebtsQueryHandlerBase findDebtsQueryHandler, ODataQueryOptions<DebtsEntity> queryOptions)
         {
 
